@@ -1,10 +1,13 @@
 package com.example.blackmarket.dto.response;
 
 import com.example.blackmarket.model.Post;
+import com.example.blackmarket.model.State;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -17,9 +20,9 @@ public class PostDto {
 
     private String content;
 
-    private String createDate;
+    private LocalDateTime createDate;
 
-    private String targetDate;
+    private LocalDateTime targetDate;
 
     private Long viewCount;
 
@@ -29,7 +32,11 @@ public class PostDto {
 
     private Long biddingUnit;
 
+    private State state;
+
     private CategoryDto category;
+
+    private UserDto user;
 
     public PostDto(Post post){
         this.id = post.getId();
@@ -41,6 +48,8 @@ public class PostDto {
         this.immediatePurchasePrice = post.getImmediatePurchasePrice();
         this.biddingPrice = post.getBiddingPrice();
         this.biddingUnit = post.getBiddingUnit();
+        this.state = post.getStatus();
         this.category = new CategoryDto(post.getCategory());
+        this.user = new UserDto(post.getUser());
     }
 }

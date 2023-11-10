@@ -83,11 +83,4 @@ public class PostController {
         Page<PostDto> postDtoList = postList.map(PostDto::new);
         return ResponseEntity.ok(postDtoList);
     }
-
-    @Operation(summary = "입찰가 수정")
-    @PatchMapping("post/biddingPrice/{postId}")
-    public ResponseEntity<PostDto> updatePostBiddingPrice(@PathVariable Long postId, User user){
-        Post post = postService.updatePostBiddingPrice(postId, user);
-        return ResponseEntity.ok(new PostDto(post));
-    }
 }

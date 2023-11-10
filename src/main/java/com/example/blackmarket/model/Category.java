@@ -1,6 +1,7 @@
 package com.example.blackmarket.model;
 
 
+import com.example.blackmarket.dto.response.CategoryDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,4 +22,11 @@ public class Category {
     private Long id;
 
     private String name;
+
+    public CategoryDto toDto() {
+        return CategoryDto.builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
 }
