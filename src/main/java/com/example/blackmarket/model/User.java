@@ -1,4 +1,5 @@
 package com.example.blackmarket.model;
+import com.example.blackmarket.dto.response.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -97,5 +98,16 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+    public UserDto toDto(){
+        return UserDto.builder()
+                .id(id)
+                .email(email)
+                .name(name)
+                .imageUrl(imageUrl)
+                .emailVerified(emailVerified)
+                .provider(provider)
+                .build();
     }
 }

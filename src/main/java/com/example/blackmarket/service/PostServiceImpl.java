@@ -5,6 +5,7 @@ import com.example.blackmarket.dto.requeset.PostCreateDto;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.model.Category;
 import com.example.blackmarket.model.Post;
+import com.example.blackmarket.model.State;
 import com.example.blackmarket.model.User;
 import com.example.blackmarket.repository.CategoryRepository;
 import com.example.blackmarket.repository.PostRepository;
@@ -12,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 
 @Service
 @AllArgsConstructor
@@ -42,6 +42,8 @@ public class PostServiceImpl implements PostService{
                 .category(category)
                 .user(user)
                 .build();
+
+        post.setStatus(State.WAITING);
 
         postRepository.save(post);
 
@@ -93,20 +95,5 @@ public class PostServiceImpl implements PostService{
     public Page<Post> findPostByCategoryId(Long categoryId, Pageable pageable) {
         Page<Post> postList = postRepository.findByCategoryId(categoryId, pageable);
         return postList;
-    }
-
-    @Override
-    public Post updatePostBiddingPrice(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-
-        if(!post.getUser().getId().equals(user.getId())){
-            throw new IllegalStateException("해당 글을 수정할 권한이 없습니다.");
-        }
-
-        post.setBiddingPrice(post.getBiddingPrice() + post.getBiddingUnit());
-
-        postRepository.save(post);
-
-        return post;
     }
 }

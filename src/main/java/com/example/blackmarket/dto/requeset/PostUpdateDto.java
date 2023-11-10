@@ -2,6 +2,8 @@ package com.example.blackmarket.dto.requeset;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -13,7 +15,7 @@ public class PostUpdateDto {
 
     private String content;
 
-    private String targetDate;
+    private LocalDateTime targetDate;
 
     private Long immediatePurchasePrice;
 

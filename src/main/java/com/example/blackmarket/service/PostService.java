@@ -20,6 +20,4 @@ public interface PostService {
     Page<Post> findPostList(Pageable pageable);
 
     Page<Post> findPostByCategoryId(Long categoryId, Pageable pageable);
-
-    Post updatePostBiddingPrice(Long postId, User user);
 }
