@@ -94,4 +94,19 @@ public class PostServiceImpl implements PostService{
         Page<Post> postList = postRepository.findByCategoryId(categoryId, pageable);
         return postList;
     }
+
+    @Override
+    public Post updatePostBiddingPrice(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+        if(!post.getUser().getId().equals(user.getId())){
+            throw new IllegalStateException("해당 글을 수정할 권한이 없습니다.");
+        }
+
+        post.setBiddingPrice(post.getBiddingPrice() + post.getBiddingUnit());
+
+        postRepository.save(post);
+
+        return post;
+    }
 }
