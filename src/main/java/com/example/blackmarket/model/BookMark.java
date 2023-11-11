@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 public class BookMark {
 
