@@ -5,6 +5,9 @@ import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.dto.response.PostDto;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.model.User;
+import com.example.blackmarket.repository.UserRepository;
+import com.example.blackmarket.security.CurrentUser;
+import com.example.blackmarket.security.UserPrincipal;
 import com.example.blackmarket.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,17 +25,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class PostController {
     private final PostService postService;
+    private final UserRepository userRepository;
 
     @Operation(summary = "게시글 생성")
     @PostMapping("/post")
-    public ResponseEntity<PostDto> createPost(@RequestBody PostCreateDto postCreateDto, User user){
+    public ResponseEntity<PostDto> createPost(@RequestBody PostCreateDto postCreateDto, @CurrentUser UserPrincipal userPrincipal){
+
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
+
         Post post = postService.createPost(postCreateDto, user);
         return ResponseEntity.ok(new PostDto(post));
     }
 
     @Operation(summary = "게시글 수정")
     @PatchMapping("post/{postId}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostUpdateDto postUpdateDto, @PathVariable Long postId, User user){
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostUpdateDto postUpdateDto, @PathVariable Long postId, @CurrentUser User user){
         Post post = postService.updatePost(postUpdateDto, postId, user);
         return ResponseEntity.ok(new PostDto(post));
     }

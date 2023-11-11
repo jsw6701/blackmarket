@@ -3,7 +3,9 @@ package com.example.blackmarket.controller;
 import com.example.blackmarket.dto.response.AuctionDto;
 import com.example.blackmarket.model.Auction;
 import com.example.blackmarket.model.User;
+import com.example.blackmarket.repository.UserRepository;
 import com.example.blackmarket.security.CurrentUser;
+import com.example.blackmarket.security.UserPrincipal;
 import com.example.blackmarket.service.AuctionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,11 @@ public class AuctionController {
 
     private final AuctionService auctionService;
 
+    private final UserRepository userRepository;
+
     @PostMapping("/auction/create/{postId}")
-    public ResponseEntity<?> createAuction(@CurrentUser User user, @PathVariable Long postId){
+    public ResponseEntity<?> createAuction(@CurrentUser UserPrincipal userPrincipal, @PathVariable Long postId){
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
         auctionService.participate(postId, user);
         return ResponseEntity.ok().build();
     }
