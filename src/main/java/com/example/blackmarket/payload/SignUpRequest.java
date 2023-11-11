@@ -1,12 +1,18 @@
 package com.example.blackmarket.payload;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-/**
- * Created by rajeevkumarsingh on 02/08/17.
- */
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUpRequest {
     @NotBlank
     private String name;
@@ -18,27 +24,16 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
-    public String getName() {
-        return name;
-    }
+    @NotBlank
+    private String password2;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @NotBlank
+    private String phoneNumber;
 
-    public String getEmail() {
-        return email;
-    }
+    @NotBlank
+    private String account;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @NotBlank
+    private String nickname;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

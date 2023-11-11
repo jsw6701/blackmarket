@@ -66,6 +66,10 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
+        user.setNickname(signUpRequest.getNickname());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setAccount(signUpRequest.getAccount());
+        user.setNickname(signUpRequest.getNickname());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

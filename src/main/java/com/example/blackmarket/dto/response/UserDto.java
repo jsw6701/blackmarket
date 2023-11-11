@@ -25,6 +25,12 @@ public class UserDto {
 
     private AuthProvider provider;
 
+    private String phoneNumber;
+
+    private String nickname;
+
+    private String account;
+
     public UserDto(User user){
         this.id = user.getId();
         this.email = user.getEmail();
@@ -32,5 +38,8 @@ public class UserDto {
         this.imageUrl = user.getImageUrl();
         this.emailVerified = user.getEmailVerified();
         this.provider = user.getProvider();
+        this.phoneNumber = user.getPhoneNumber();
+        this.nickname = user.getNickname();
+        this.account = user.getAccount();
     }
 }
