@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand logo" href="#!"><span class="logo-text1">Black</span> <span class="logo-text2">Market</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-auto">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">온라인 경매</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">인기 경매</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">마감 임박</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">충전</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+            </ul>
+            <div th:if="${loginflag}">
+                <button class="btn btn-outline-yellow">
+                    <a th:href="@{/logout}">Logout</a>
+                </button>
+            </div>
+            <div th:unless="${loginflag}">
+                <button class="btn btn-outline-yellow" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    로그인
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

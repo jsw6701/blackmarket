@@ -19,12 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    @Autowired
+    private HttpSession httpSession;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -51,6 +55,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = tokenProvider.createToken(authentication);
+
+        httpSession.setAttribute("email", loginRequest.getEmail());
+
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

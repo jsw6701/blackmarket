@@ -83,6 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                     .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()

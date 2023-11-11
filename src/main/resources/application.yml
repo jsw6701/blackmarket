@@ -15,10 +15,13 @@ springdoc:
 
 spring:
   jpa:
+    database: mysql
     open-in-view: true
     show-sql: true
+    generate-ddl: true
     properties:
       hibernate:
+        ddl-auto: create
         format_sql: true
   mvc:
     pathmatch:
@@ -28,3 +31,9 @@ spring:
         enabled: true
   profiles:
     include: local
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  servlet:
+    session:
+      store-type: redis
