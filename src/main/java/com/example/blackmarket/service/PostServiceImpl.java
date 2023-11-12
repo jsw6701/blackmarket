@@ -3,6 +3,7 @@ package com.example.blackmarket.service;
 
 import com.example.blackmarket.dto.requeset.PostCreateDto;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
+import com.example.blackmarket.dto.response.PostDto;
 import com.example.blackmarket.model.Category;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.model.State;
@@ -13,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +31,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Post createPost(PostCreateDto postCreateDto, User user) {
+    public PostDto createPost(PostCreateDto postCreateDto, User user) {
 
         Category category = categoryRepository.findById(postCreateDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
 
@@ -39,15 +42,17 @@ public class PostServiceImpl implements PostService{
                 .immediatePurchasePrice(postCreateDto.getImmediatePurchasePrice())
                 .biddingPrice(postCreateDto.getBiddingPrice())
                 .biddingUnit(postCreateDto.getBiddingUnit())
+                .targetDate(postCreateDto.getTargetDate())
                 .category(category)
                 .user(user)
                 .build();
 
         post.setStatus(State.WAITING);
+        post.setCreateDate(LocalDateTime.now());
 
         postRepository.save(post);
 
-        return post;
+        return new PostDto(post);
     }
 
     @Override
@@ -86,14 +91,18 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Page<Post> findPostList(Pageable pageable) {
+    public Page<PostDto> findPostList(Pageable pageable) {
         Page<Post> postList = postRepository.findAll(pageable);
-        return postList;
+
+        Page<PostDto> postDtoList = postList.map(PostDto::new);
+
+        return postDtoList;
     }
 
     @Override
-    public Page<Post> findPostByCategoryId(Long categoryId, Pageable pageable) {
+    public Page<PostDto> findPostByCategoryId(Long categoryId, Pageable pageable) {
         Page<Post> postList = postRepository.findByCategoryId(categoryId, pageable);
-        return postList;
+        Page<PostDto> postDtoList = postList.map(PostDto::new);
+        return postDtoList;
     }
 }

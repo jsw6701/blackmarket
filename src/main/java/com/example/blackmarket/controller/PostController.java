@@ -3,8 +3,12 @@ package com.example.blackmarket.controller;
 import com.example.blackmarket.dto.requeset.PostCreateDto;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.dto.response.PostDto;
+import com.example.blackmarket.model.Category;
 import com.example.blackmarket.model.Post;
+import com.example.blackmarket.model.PostSpecification;
 import com.example.blackmarket.model.User;
+import com.example.blackmarket.repository.CategoryRepository;
+import com.example.blackmarket.repository.PostRepository;
 import com.example.blackmarket.repository.UserRepository;
 import com.example.blackmarket.security.CurrentUser;
 import com.example.blackmarket.security.UserPrincipal;
@@ -17,15 +21,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
 public class PostController {
     private final PostService postService;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final PostRepository postRepository;
 
     @Operation(summary = "게시글 생성")
     @PostMapping("/post")
@@ -33,8 +44,8 @@ public class PostController {
 
         User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 
-        Post post = postService.createPost(postCreateDto, user);
-        return ResponseEntity.ok(new PostDto(post));
+        PostDto post = postService.createPost(postCreateDto, user);
+        return ResponseEntity.ok(post);
     }
 
     @Operation(summary = "게시글 수정")
@@ -62,9 +73,8 @@ public class PostController {
     })
     @GetMapping("post/readAll")
     public ResponseEntity<Page<PostDto>> findPostList(Pageable pageable){
-        Page<Post> postList = postService.findPostList(pageable);
-        Page<PostDto> postDtoList = postList.map(PostDto::new);
-        return ResponseEntity.ok(postDtoList);
+        Page<PostDto> postList = postService.findPostList(pageable);
+        return ResponseEntity.ok(postList);
     }
 
     @Operation(summary = "게시글 상세 조회")
@@ -86,8 +96,46 @@ public class PostController {
     })
     @GetMapping("post/category/{categoryId}")
     public ResponseEntity<Page<PostDto>> findPostByCategoryId(@PathVariable Long categoryId, Pageable pageable){
-        Page<Post> postList = postService.findPostByCategoryId(categoryId, pageable);
-        Page<PostDto> postDtoList = postList.map(PostDto::new);
-        return ResponseEntity.ok(postDtoList);
+        Page<PostDto> postList = postService.findPostByCategoryId(categoryId, pageable);
+        return ResponseEntity.ok(postList);
     }
+
+
+    @Operation(summary = "검색 필터")
+    @GetMapping("post/search")
+    public ResponseEntity<List<PostDto>> findFilter(
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "targetDate", required = false) LocalDateTime targetDate,
+            @RequestParam(value = "biddingPrice", required = false) Long biddingPrice,
+            @RequestParam(value = "MaxBiddingPrice", required = false) Long MaxBiddingPrice,
+            @RequestParam(value = "MinBiddingPrice", required = false) Long MinBiddingPrice) {
+
+        Specification<Post> spec = ((root, query, criteriaBuilder) ->  null);
+
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+            spec = spec.and(PostSpecification.categoryId(category));
+        }
+        if (title != null) {
+            spec = spec.and(PostSpecification.titleContains(title));
+        }
+        if (content != null) {
+            spec = spec.and(PostSpecification.contentContains(content));
+        }
+        if (targetDate != null) {
+            spec = spec.and(PostSpecification.deadlineWithin(targetDate));
+        }
+        if (biddingPrice != null) {
+            spec = spec.and(PostSpecification.priceMoreThan(biddingPrice));
+        }
+        if (MaxBiddingPrice != null && MinBiddingPrice != null) {
+            spec = spec.and(PostSpecification.priceRange(MinBiddingPrice, MaxBiddingPrice));
+        }
+        List<Post> postList = postRepository.findAll(spec);
+
+        return ResponseEntity.ok(postList.stream().map(PostDto::new).collect(Collectors.toList()));
+    }
+
 }
