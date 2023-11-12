@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.net.URI;
@@ -43,7 +45,7 @@ public class AuthController {
     private TokenProvider tokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -56,7 +58,11 @@ public class AuthController {
 
         String token = tokenProvider.createToken(authentication);
 
-        httpSession.setAttribute("email", loginRequest.getEmail());
+//        httpSession.setAttribute("userid", tokenProvider.getUserIdFromToken(token));
+//        httpSession.setAttribute("token", token);
+        Cookie cookie = new Cookie("jwtToken", token);
+        cookie.setMaxAge(60 * 60);  // 쿠키 유효 시간 : 1시간
+        response.addCookie(cookie);
 
         return ResponseEntity.ok(new AuthResponse(token));
     }

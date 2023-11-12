@@ -3,6 +3,7 @@ package com.example.blackmarket.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +13,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -40,6 +43,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
         }
@@ -51,6 +55,22 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
+        }else if(request.getCookies() != null){
+            Cookie jwtTokenCookie = Arrays.stream(request.getCookies())
+                    .filter(cookie -> cookie.getName().equals("jwtToken"))
+                    .findFirst()
+                    .orElse(null);
+            if(jwtTokenCookie == null) {
+                return null;
+            }
+            String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if(authorizationHeader == null) {
+                if(request.getCookies() == null) {
+                    return null;
+                }
+            }
+            String jwtToken = jwtTokenCookie.getValue();
+            return jwtToken;
         }
         return null;
     }
