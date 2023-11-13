@@ -154,6 +154,7 @@ signup_btn.addEventListener('click', (e) => {
   // bootstrap.Modal.getOrCreateInstance('#joinModal').hide();
 
 });
+var a = "";
 login_btn.addEventListener('click', (e) => {
 
   var requestData = {
@@ -165,6 +166,9 @@ login_btn.addEventListener('click', (e) => {
       // console.error('AJAX request error:', error);
       alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
     } else {
+      // console.log('AJAX response:', JSON.stringify(response));
+      console.log(JSON.parse(response).accessToken);
+      document.cookie = "jwtToken="+JSON.parse(response).accessToken;
       location.reload();
     }
   });

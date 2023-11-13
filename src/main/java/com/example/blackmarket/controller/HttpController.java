@@ -1,5 +1,7 @@
 package com.example.blackmarket.controller;
 
+import com.example.blackmarket.security.CurrentUser;
+import com.example.blackmarket.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,11 +17,9 @@ public class HttpController {
     @Autowired
     private HttpSession httpSession;
     @GetMapping(value = {"/", "/index", "/main"})
-    public String index(Model model) {
-        String email = (String) httpSession.getAttribute("email");
-
+    public String index(Model model, @CurrentUser UserPrincipal userPrincipal) {
         boolean loginflag = false;
-        if(email !=null && !email.isEmpty()){
+        if(userPrincipal != null){
             loginflag = true;
         }
         model.addAttribute("loginflag",loginflag);
