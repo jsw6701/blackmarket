@@ -46,6 +46,8 @@ public class User {
 
     private String providerId;
 
+    private Long money;
+
     public UserDto toDto(){
         return UserDto.builder()
                 .id(id)

@@ -69,7 +69,7 @@ public class PostController {
             @Parameter(name = "page", description = "page number",
                     in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0")),
             @Parameter(name = "size", description = "page size",
-                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "5"))
+                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "12"))
     })
     @GetMapping("post/readAll")
     public ResponseEntity<Page<PostDto>> findPostList(Pageable pageable){
@@ -92,11 +92,27 @@ public class PostController {
             @Parameter(name = "page", description = "page number",
                     in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0")),
             @Parameter(name = "size", description = "page size",
-                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "5"))
+                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "12"))
     })
     @GetMapping("post/category/{categoryId}")
     public ResponseEntity<Page<PostDto>> findPostByCategoryId(@PathVariable Long categoryId, Pageable pageable){
         Page<PostDto> postList = postService.findPostByCategoryId(categoryId, pageable);
+        return ResponseEntity.ok(postList);
+    }
+
+
+    @Operation(summary = "마감임박순 게시글 목록 조회")
+    @Parameters({
+            @Parameter(name = "sort", description = "sort specification",
+                    in = ParameterIn.QUERY, schema = @Schema(type = "targetDate,desc"), example = "targetDate,desc"),
+            @Parameter(name = "page", description = "page number",
+                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0")),
+            @Parameter(name = "size", description = "page size",
+                    in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "12"))
+    })
+    @GetMapping("post/deadline")
+    public ResponseEntity<Page<PostDto>> findPostByDeadline(Pageable pageable){
+        Page<PostDto> postList = postService.findPostList(pageable);
         return ResponseEntity.ok(postList);
     }
 

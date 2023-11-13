@@ -77,6 +77,7 @@ public class AuthController {
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
         user.setAccount(signUpRequest.getAccount());
         user.setNickname(signUpRequest.getNickname());
+        user.setMoney(0L);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

@@ -31,6 +31,8 @@ public class UserDto {
 
     private String account;
 
+    private Long money;
+
     public UserDto(User user){
         this.id = user.getId();
         this.email = user.getEmail();
@@ -41,5 +43,6 @@ public class UserDto {
         this.phoneNumber = user.getPhoneNumber();
         this.nickname = user.getNickname();
         this.account = user.getAccount();
+        this.money = user.getMoney();
     }
 }
