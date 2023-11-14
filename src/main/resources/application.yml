@@ -29,11 +29,23 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 구글이메일
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   profiles:
     include: local
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+    cache: false
   servlet:
     session:
       store-type: redis

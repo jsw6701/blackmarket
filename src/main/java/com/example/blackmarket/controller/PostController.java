@@ -22,8 +22,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -119,14 +121,16 @@ public class PostController {
 
     @Operation(summary = "검색 필터")
     @GetMapping("post/search")
-    public ResponseEntity<List<PostDto>> findFilter(
+    public String findFilter(
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "content", required = false) String content,
-            @RequestParam(value = "targetDate", required = false) LocalDateTime targetDate,
+            @RequestParam(value = "targetDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime targetDate,
             @RequestParam(value = "biddingPrice", required = false) Long biddingPrice,
             @RequestParam(value = "MaxBiddingPrice", required = false) Long MaxBiddingPrice,
-            @RequestParam(value = "MinBiddingPrice", required = false) Long MinBiddingPrice) {
+            @RequestParam(value = "MinBiddingPrice", required = false) Long MinBiddingPrice,
+            @RequestParam(value = "name", required = false) String name,
+            Model model) {
 
         Specification<Post> spec = ((root, query, criteriaBuilder) ->  null);
 
@@ -149,9 +153,13 @@ public class PostController {
         if (MaxBiddingPrice != null && MinBiddingPrice != null) {
             spec = spec.and(PostSpecification.priceRange(MinBiddingPrice, MaxBiddingPrice));
         }
-        List<Post> postList = postRepository.findAll(spec);
-
-        return ResponseEntity.ok(postList.stream().map(PostDto::new).collect(Collectors.toList()));
+        if (name != null) {
+            String userName = userRepository.findByName(name).getName();
+            spec = spec.and(PostSpecification.userName(userName));
+        }
+        List<Post> boardList = postRepository.findAll(spec);
+        List<PostDto> boardList2 = boardList.stream().map(PostDto::new).collect(Collectors.toList());
+        model.addAttribute("boardList2", boardList2);
+        return "admin/board";
     }
-
 }

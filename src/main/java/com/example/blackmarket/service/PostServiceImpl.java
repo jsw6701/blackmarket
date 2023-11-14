@@ -10,6 +10,7 @@ import com.example.blackmarket.model.State;
 import com.example.blackmarket.model.User;
 import com.example.blackmarket.repository.CategoryRepository;
 import com.example.blackmarket.repository.PostRepository;
+import com.example.blackmarket.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
 
     private final CategoryRepository categoryRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public Post findById(Long id) {
@@ -104,5 +107,13 @@ public class PostServiceImpl implements PostService{
         Page<Post> postList = postRepository.findByCategoryId(categoryId, pageable);
         Page<PostDto> postDtoList = postList.map(PostDto::new);
         return postDtoList;
+    }
+
+    @Override
+    public void deleteById(Long id, Long principalId) {
+        User admin = userRepository.findById(principalId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
+        if ( admin.getRole().equals("ADMIN")){
+            postRepository.deleteById(id);
+        }
     }
 }

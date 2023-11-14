@@ -21,6 +21,8 @@ public class UserDto {
 
     private String imageUrl;
 
+    private String role;
+
     private Boolean emailVerified;
 
     private AuthProvider provider;
@@ -38,6 +40,7 @@ public class UserDto {
         this.email = user.getEmail();
         this.name = user.getName();
         this.imageUrl = user.getImageUrl();
+        this.role = user.getRole();
         this.emailVerified = user.getEmailVerified();
         this.provider = user.getProvider();
         this.phoneNumber = user.getPhoneNumber();

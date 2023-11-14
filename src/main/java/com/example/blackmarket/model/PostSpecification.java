@@ -34,4 +34,8 @@ public class PostSpecification {
     public static Specification<Post> categoryId(Category category) {
         return (root, query, builder) -> builder.equal(root.get("category").get("id"), category);
     }
+
+    public static Specification<Post> userName(String name) {
+        return (root, query, builder) -> builder.equal(root.get("user").get("name"), name);
+    }
 }
