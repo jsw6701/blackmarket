@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +32,7 @@ public class Post {
     private LocalDateTime targetDate;
 
     //조회수
-    private Long viewCount;
+    private Long viewCount = 0L;
 
     //즉시구매가
     private Long immediatePurchasePrice;
@@ -45,6 +46,9 @@ public class Post {
     // 게시글 상태
     private State status;
 
+    @ElementCollection
+    private List<String> fileArray;
+
     @ManyToOne
     private Category category;
 
@@ -53,7 +57,7 @@ public class Post {
 
 
     @Builder
-    public Post(String title, String content, LocalDateTime createDate, LocalDateTime targetDate, Long viewCount, Long immediatePurchasePrice, Long biddingPrice, Long biddingUnit, State status, Category category, User user) {
+    public Post(String title, String content, LocalDateTime createDate, LocalDateTime targetDate, Long viewCount, Long immediatePurchasePrice, Long biddingPrice, Long biddingUnit, State status, Category category, List<String> fileArray, User user) {
         this.title = title;
         this.content = content;
         this.createDate = createDate;
@@ -63,6 +67,7 @@ public class Post {
         this.biddingPrice = biddingPrice;
         this.biddingUnit = biddingUnit;
         this.status = status;
+        this.fileArray = fileArray;
         this.category = category;
         this.user = user;
     }

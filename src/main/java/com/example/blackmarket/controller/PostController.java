@@ -12,6 +12,7 @@ import com.example.blackmarket.repository.PostRepository;
 import com.example.blackmarket.repository.UserRepository;
 import com.example.blackmarket.security.CurrentUser;
 import com.example.blackmarket.security.UserPrincipal;
+import com.example.blackmarket.service.FileService;
 import com.example.blackmarket.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,6 +29,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +42,8 @@ public class PostController {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
+    private final FileService fileService;
+
 
     @Operation(summary = "게시글 생성")
     @PostMapping("/post")
@@ -48,6 +53,25 @@ public class PostController {
 
         PostDto post = postService.createPost(postCreateDto, user);
         return ResponseEntity.ok(post);
+    }
+
+    @Operation(summary = "게시글 생성1")
+    @PostMapping("/post1")
+    public String createPost1(@ModelAttribute  PostCreateDto postCreateDto, @CurrentUser UserPrincipal userPrincipal){
+
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*********************************************************");
+        System.out.println("title : "+postCreateDto.getTitle());
+        System.out.println("날짜 : " + LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay());
+        System.out.println("content : "+postCreateDto.getContent());
+
+        fileService.uploadFiles(postCreateDto.getFiles());
+
+        System.out.println();
+
+        System.out.println("*********************************************************\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        PostDto post = postService.createPost(postCreateDto, user);
+        return "redirect:/index";
     }
 
     @Operation(summary = "게시글 수정")
@@ -77,6 +101,13 @@ public class PostController {
     public ResponseEntity<Page<PostDto>> findPostList(Pageable pageable){
         Page<PostDto> postList = postService.findPostList(pageable);
         return ResponseEntity.ok(postList);
+    }
+    @GetMapping("post/readAll2")
+    public String findPostList(Pageable pageable, Model model,HttpServletRequest request){
+        Page<PostDto> postList = postService.findPostList(pageable);
+
+        model.addAttribute("postList", postList);
+        return "AJAX/card_list";
     }
 
     @Operation(summary = "게시글 상세 조회")

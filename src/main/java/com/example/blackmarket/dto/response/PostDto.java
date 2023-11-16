@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -34,6 +35,8 @@ public class PostDto {
 
     private State state;
 
+    private List<String> fileArray;
+
     private CategoryDto category;
 
     private UserDto user;
@@ -49,6 +52,7 @@ public class PostDto {
         this.biddingPrice = post.getBiddingPrice();
         this.biddingUnit = post.getBiddingUnit();
         this.state = post.getStatus();
+        this.fileArray = post.getFileArray();
         this.category = new CategoryDto(post.getCategory());
         this.user = new UserDto(post.getUser());
     }

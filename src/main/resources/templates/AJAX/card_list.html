@@ -1,0 +1,21 @@
+<div th:each="post : ${postList.content}" class="col mb-5">
+        <div class="card h-100 card-post" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
+<!--            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
+<!--            <img class="card-img-top" th:src="'/upload/' + ${post.fileArray[0]}" alt="..." />-->
+            <img th:if="${post.fileArray != null and post.fileArray.size() > 0}" th:src="'/upload/' + ${post.fileArray[0]}" alt="Image" class="card-img-top">
+            <!-- Product details-->
+            <div class="card-body p-3">
+                <div class="text-start">
+                    <div class="author" th:text="${post.user.getName()}"></div>
+                    <div class="my-3 tag">
+                        <span th:if="${post.immediatePurchasePrice != null and post.immediatePurchasePrice != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span th:if="${T(java.time.LocalDateTime).now().plusDays(3).isBefore(post.targetDate)}" class="px-1 me-1 py-1 red">마감임박</span>
+                    </div>
+                    <h5 class="title" th:text="${post.title}"></h5>
+                    <div class="text-end">
+                        <span th:text="${post.biddingPrice}+' 원'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

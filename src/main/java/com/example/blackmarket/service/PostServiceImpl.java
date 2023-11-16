@@ -15,8 +15,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,14 +42,22 @@ public class PostServiceImpl implements PostService{
 
         Category category = categoryRepository.findById(postCreateDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
 
+        List<String> fileArray = new ArrayList<>();
+        for (MultipartFile file : postCreateDto.getFiles()) {
+            String title = file.getOriginalFilename();
+            fileArray.add(title);
+        }
+
+
         Post post = Post.builder()
                 .title(postCreateDto.getTitle())
                 .content(postCreateDto.getContent())
-                .targetDate(postCreateDto.getTargetDate())
+                .targetDate(LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay())
                 .immediatePurchasePrice(postCreateDto.getImmediatePurchasePrice())
                 .biddingPrice(postCreateDto.getBiddingPrice())
                 .biddingUnit(postCreateDto.getBiddingUnit())
-                .targetDate(postCreateDto.getTargetDate())
+                .targetDate(LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay())
+                .fileArray(fileArray)
                 .category(category)
                 .user(user)
                 .build();
