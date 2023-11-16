@@ -28,6 +28,16 @@ public class HttpController {
         return "index";
     }
 
+    @GetMapping("/mypage")
+    public String mypage(Model model, @CurrentUser UserPrincipal userPrincipal) {
+        boolean loginflag = false;
+        if(userPrincipal != null){
+            loginflag = true;
+        }
+        model.addAttribute("loginflag",loginflag);
+        return "mypage";
+    }
+
     @GetMapping("/charge")
     public String charge(Model model, @CurrentUser UserPrincipal userPrincipal) {
         boolean loginflag = false;
