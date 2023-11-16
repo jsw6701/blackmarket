@@ -6,7 +6,14 @@ const next = document.querySelector('.next');
 const prev = document.querySelector('.prev');
 const signup_btn = document.querySelector('#signup_button');
 const login_btn = document.querySelector('#login_btn');
-
+const fileInput = document.querySelector('#file-input');
+const preview = document.querySelector('#preview');
+const recent =  document.querySelector('#recent_btn');
+const most =  document.querySelector('#most_btn');
+const post_btns = document.querySelectorAll('.post-btns');
+const plus_btn = document.querySelector('.plusbtn');
+const card_posts = document.querySelectorAll('.card-post');
+const post_detail_inner = document.querySelector('.post-ditail-inner');
 
 const itemCount = item.length - 2;
 let startX = 0;         //mousedown시 위치
@@ -38,7 +45,7 @@ if(item.length > 0){
   // btn click event
 
   next.addEventListener('click', (e) => {
-    if (currentIdx === itemCount - 1) return;  
+    if (currentIdx === itemCount - 1) return;
     const isActive = items.classList.contains('active');
     if (!isActive) items.classList.add('active');
     currentIdx = currentIdx + 1;
@@ -94,8 +101,8 @@ function onMouseMove(e) {
 const self_price = document.querySelector('#self-price');
 if(self_price != null){
   self_price.addEventListener('click', (e) => {
-  document.querySelector('#option7').checked = true; 
-  });  
+  document.querySelector('#option7').checked = true;
+  });
 }
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -175,3 +182,154 @@ login_btn.addEventListener('click', (e) => {
   // bootstrap.Modal.getOrCreateInstance('#joinModal').hide();
 
 });
+
+imageLoader = function(file){
+  var reader = new FileReader();
+  reader.onload = function(ee){
+    // let img = document.createElement('img')
+    // img.src = ee.target.result;
+    preview.innerHTML += `
+                        <div id="${file.lastModified}" class="empty-img-box my-1 mx-1 col-6">
+                            <img src="${ee.target.result}">
+                            <button data-index='${file.lastModified}' class='file-remove'></button>
+                        </div>`;
+
+
+  }
+  reader.readAsDataURL(file);
+}
+
+const dataTranster = new DataTransfer();
+
+const handler = {
+  init() {
+
+    fileInput.addEventListener('change', () => {
+      console.dir(fileInput)
+      const files = Array.from(fileInput.files);
+      Array.from(files).forEach(file => {
+            dataTranster.items.add(file);
+          });
+      document.querySelector('#file-input').files = dataTranster.files;
+
+      files.forEach(file => {
+        imageLoader(file);
+      });
+    });
+  },
+
+  removeFile: () => {
+    document.addEventListener('click', (e) => {
+      if(e.target.className !== 'file-remove') return;
+      const removeTargetId = e.target.dataset.index;
+      const removeTarget = document.getElementById(removeTargetId);
+      const files = document.querySelector('#file-input').files;
+
+      // document.querySelector('#file-input').files =
+      //             Array.from(files).filter(file => file.lastModified !== removeTarget);
+
+      Array.from(files)
+          .filter(file => file.lastModified != removeTargetId)
+          .forEach(file => {
+            dataTranster.items.add(file);
+          });
+
+      document.querySelector('#file-input').files = dataTranster.files;
+
+      removeTarget.remove();
+    })
+  }
+}
+
+handler.init()
+handler.removeFile()
+
+
+let orderPageNum = 0;
+let orderPageSize = 12;
+let orderText = "sort=createDate,desc";
+
+function load_recent(order, new_flag,size,page){
+  var requestData = {};
+  console.log('/post/readAll2?'+order+"&size="+size+"&page"+page);
+  sendAjaxRequest('/post/readAll2?'+order+"&size="+size+"&page="+page, 'GET', requestData, function (error, response) {
+    if (error) {
+      console.error('AJAX request error:', error);
+      // alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
+    } else {
+      if(new_flag == true){
+        document.querySelector('.card-list').innerHTML = response;
+      }else{
+        document.querySelector('.card-list').innerHTML += response;
+      }
+    }
+  });
+}
+if(document.querySelector('.card-list') != null) {
+  load_recent(orderText, true, orderPageSize, orderPageNum);
+}
+post_btns.forEach(function(post_btn) {
+  post_btn.addEventListener('change', function() {
+      if (this.checked) {
+        var selectedId = this.id;
+          orderPageNum = 0;
+        if (selectedId === 'recent_btn') {
+          orderText = "sort=createDate,desc";
+          load_recent(orderText,true,orderPageSize,orderPageNum);
+        } else if (selectedId === 'most_btn') {
+          orderText = "sort=viewCount,desc"
+          load_recent(orderText,true,orderPageSize,orderPageNum);
+        }
+      }
+    });
+});
+
+if(plus_btn != null){
+  plus_btn.addEventListener('click', function() {
+    orderPageNum += 1;
+    load_recent(orderText, false, orderPageSize, orderPageNum);
+  });
+}
+
+var modal = document.querySelector('#postDetailModal');
+modal.addEventListener('hidden.bs.modal', function () {
+  // 모달이 숨겨질 때 실행할 코드 작성
+  document.querySelector('#post_detail_author').innerText = "";
+  document.querySelector('#post_detail_title').innerText = "";
+  document.querySelector('#post_detail_content').innerText = "";
+});
+
+
+
+function post_detail_btn(element) {
+  var dataIdValue = element.dataset.id;
+
+  var requestData = {};
+  sendAjaxRequest('/post/'+dataIdValue, 'GET', requestData, function (error, response) {
+    if (error) {
+      // console.error('AJAX request error:', error);
+    } else {
+      var json = JSON.parse(response);
+      document.querySelector('#post_detail_author').innerText = json.user.name;
+      document.querySelector('#post_detail_title').innerText = json.title;
+      document.querySelector('#post_detail_content').innerText = json.content;
+      document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice;
+      document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
+      for(var i = 0; i< json.fileArray.length; i++){
+        if(i==0){
+          post_detail_inner.innerHTML += `
+            <div class="carousel-item active">
+                <img src="/upload/${json.fileArray[i]}" class="d-block w-100" alt="...">
+            </div>`;
+        }else{
+          post_detail_inner.innerHTML += `
+            <div class="carousel-item">
+                <img src="/upload/${json.fileArray[i]}" class="d-block w-100" alt="...">
+            </div>`;
+        }
+
+      }
+      // console.log(JSON.parse(response));
+    }
+  });
+}
