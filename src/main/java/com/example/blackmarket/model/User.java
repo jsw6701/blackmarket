@@ -34,6 +34,8 @@ public class User {
     @JsonIgnore
     private String password;
 
+    private String role;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
@@ -54,6 +56,7 @@ public class User {
                 .email(email)
                 .name(name)
                 .imageUrl(imageUrl)
+                .role(role)
                 .emailVerified(emailVerified)
                 .provider(provider)
                 .build();

@@ -18,6 +18,8 @@ public interface PostService {
 
     void deletePost(Long postId, User user);
 
+    void deleteById(Long id, Long principalId);
+
     Page<PostDto> findPostList(Pageable pageable);
 
     Page<PostDto> findPostByCategoryId(Long categoryId, Pageable pageable);
