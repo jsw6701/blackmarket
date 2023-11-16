@@ -297,6 +297,8 @@ modal.addEventListener('hidden.bs.modal', function () {
   document.querySelector('#post_detail_author').innerText = "";
   document.querySelector('#post_detail_title').innerText = "";
   document.querySelector('#post_detail_content').innerText = "";
+  document.querySelector('#post_detail_biddingPrice').innerText = "";
+  document.querySelector('#post_detail_immediatePurchasePrice').innerText = "";
 });
 
 
@@ -315,6 +317,7 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_content').innerText = json.content;
       document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice;
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
+      post_detail_inner.innerHTML = "";
       for(var i = 0; i< json.fileArray.length; i++){
         if(i==0){
           post_detail_inner.innerHTML += `

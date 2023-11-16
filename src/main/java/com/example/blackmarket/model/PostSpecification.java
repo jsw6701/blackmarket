@@ -26,6 +26,14 @@ public class PostSpecification {
         return (root, query, builder) -> builder.greaterThan(root.get("biddingPrice"), min);
     }
 
+    public static Specification<Post> immediateMoreThan(Long min) {
+        return (root, query, builder) -> builder.greaterThan(root.get("immediatePurchasePrice"), min);
+    }
+
+    public static Specification<Post> priceLessThan(Long min) {
+        return (root, query, builder) -> builder.lessThan(root.get("biddingPrice"), min);
+    }
+
     // 마감 날짜 이내 게시글 검색
     public static Specification<Post> deadlineWithin(LocalDateTime deadline) {
         return (root, query, builder) -> builder.lessThan(root.get("targetDate"), deadline);

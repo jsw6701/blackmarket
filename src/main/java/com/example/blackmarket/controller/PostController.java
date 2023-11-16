@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -147,6 +148,75 @@ public class PostController {
     public ResponseEntity<Page<PostDto>> findPostByDeadline(Pageable pageable){
         Page<PostDto> postList = postService.findPostList(pageable);
         return ResponseEntity.ok(postList);
+    }
+
+    @Operation(summary = "검색 필터")
+    @GetMapping("post/searchPost")
+    public String findSearch(
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "targetDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime targetDate,
+            @RequestParam(value = "biddingPrice", required = false) Long biddingPrice,
+            @RequestParam(value = "MaxBiddingPrice", required = false,defaultValue = "0") Long MaxBiddingPrice,
+            @RequestParam(value = "MinBiddingPrice", required = false) Long MinBiddingPrice,
+            @RequestParam(value = "immediatePurchasePrice", required = false) Long immediatePurchasePrice,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "12") int size,
+            Model model,
+            @CurrentUser UserPrincipal userPrincipal) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        boolean loginflag = false;
+        if(userPrincipal != null){
+            loginflag = true;
+        }
+
+        model.addAttribute("loginflag",loginflag);
+
+        Specification<Post> spec = ((root, query, criteriaBuilder) -> null);
+
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+            spec = spec.and(PostSpecification.categoryId(category));
+        }
+        if (title != null) {
+            spec = spec.and(PostSpecification.titleContains(title));
+        }
+        if (content != null) {
+            spec = spec.and(PostSpecification.contentContains(content));
+        }
+        if (targetDate != null) {
+            spec = spec.and(PostSpecification.deadlineWithin(targetDate));
+        }
+        if (biddingPrice != null) {
+            if (biddingPrice < 10000001L) {
+                spec = spec.and(PostSpecification.priceLessThan(biddingPrice));
+            } else {
+                biddingPrice = 9999999L;
+                spec = spec.and(PostSpecification.priceMoreThan(biddingPrice));
+            }
+        }
+        if (MaxBiddingPrice != null && MinBiddingPrice != null) {
+            spec = spec.and(PostSpecification.priceRange(MinBiddingPrice, MaxBiddingPrice));
+        }
+
+        if (immediatePurchasePrice != null){
+            spec = spec.and(PostSpecification.immediateMoreThan(immediatePurchasePrice));
+        }
+
+        if (name != null) {
+            String userName = userRepository.findByName(name).getName();
+            spec = spec.and(PostSpecification.userName(userName));
+        }
+        Page<Post> boardList = postRepository.findAll(spec,pageable);
+        List<PostDto> postList = boardList.stream().map(PostDto::new).collect(Collectors.toList());
+
+        model.addAttribute("currentPage", boardList.getNumber()); // 현재 페이지 번호
+        model.addAttribute("totalPages", boardList.getTotalPages()); // 전체 페이지 수
+        model.addAttribute("postList", postList);
+        return "item";
     }
 
 
