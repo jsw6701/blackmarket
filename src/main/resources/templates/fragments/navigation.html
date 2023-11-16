@@ -7,7 +7,7 @@
                 <li class="nav-item"><a class="nav-link" th:class="${#strings.equals(#httpServletRequest.getRequestURI(), '/') ? 'nav-link active' : 'nav-link'}" href="/">온라인 경매</a></li>
                 <li class="nav-item"><a class="nav-link" th:class="${#strings.contains(#httpServletRequest.getRequestURI(), '/post/search') ? 'nav-link active' : 'nav-link'}" href="/post/searchPost">인기 경매</a></li>
                 <li class="nav-item"><a class="nav-link" href="/post/searchPost">마감 임박</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">충전</a></li>
+                <li class="nav-item"><a class="nav-link" th:class="${#strings.contains(#httpServletRequest.getRequestURI(), '/charge') ? 'nav-link active' : 'nav-link'}" href="/charge">충전</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
             </ul>
             <div th:if="${loginflag}">
