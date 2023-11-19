@@ -49,3 +49,8 @@ spring:
   servlet:
     session:
       store-type: redis
+
+logging:
+  level:
+    springframework.security.web: trace
+    com.example.blackmarket.security: trace
