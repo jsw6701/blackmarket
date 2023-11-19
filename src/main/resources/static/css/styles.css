@@ -11476,3 +11476,39 @@ left: 0;
   margin-top: 1rem;
   width: 20%;
 }
+.pagination li a{
+  font-family: "Pretendard-Regular";
+  background: #2B2D31;
+  color: white;
+  margin-right: 0.2rem !important;
+  margin-left: 0.2rem !important;
+  border-radius: 10rem;
+  width: 40px;
+  text-decoration: none;
+  display: block;
+  height: 40px;
+  padding: 0.5rem;
+}
+.pagination li.active a{
+  cursor: default;
+}
+.item-search-submit{
+  border: none;
+  background: #FFCE69;
+  font-family: "Pretendard-Regular";
+  color:black;
+  border-radius: 0.2rem;
+}
+
+.mypage_profile_name{
+  font-family: "inter";
+  font-size: 1.5rem;
+}
+.mypage_charge_btn{
+  border: none;
+  background: #FFCE69;
+  font-family: "inter";
+  font-size: 0.9rem;
+  color:black;
+  border-radius: 0.9rem;
+}
