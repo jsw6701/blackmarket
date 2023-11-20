@@ -3,16 +3,21 @@
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder main-title-text">지금 <span class="main-title-text-number">132,153,913</span> 개 물품 경매중</h1>
         </div>
+        <form action="post/searchPost" method="GET">
         <div class="text-center text-white mt-5">
             <div class="mx-auto search-box">
-                <select name="search" id="" class="search-option">
+                <select name="" id="" class="search-option">
                     <option value="all" selected>전체</option>
                     <option value="title">제목</option>
                     <option value="author">작성자</option>
                 </select>
-                <input class="search-box-input" placeholder="검색어를 입력해주세요." />
-                <i class="bi bi-search"></i>
+
+                    <input class="search-box-input" name="title" placeholder="검색어를 입력해주세요." />
+                    <i class="bi bi-search"></i>
+                    <input type="submit" style="display: none">
+
             </div>
         </div>
+        </form>
     </div>
 </header>

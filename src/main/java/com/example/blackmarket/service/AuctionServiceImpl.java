@@ -1,10 +1,7 @@
 package com.example.blackmarket.service;
 
 import com.example.blackmarket.dto.response.AuctionDto;
-import com.example.blackmarket.model.Auction;
-import com.example.blackmarket.model.Post;
-import com.example.blackmarket.model.State;
-import com.example.blackmarket.model.User;
+import com.example.blackmarket.model.*;
 import com.example.blackmarket.repository.AuctionRepository;
 import com.example.blackmarket.repository.PostRepository;
 import com.example.blackmarket.repository.UserRepository;
@@ -43,7 +40,7 @@ public class AuctionServiceImpl implements AuctionService {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
-        if(post.getStatus() != State.FINISHED){
+        if(post.getStatus() == State.FINISHED){
             throw new IllegalStateException("경매가 종료되었습니다.");
         }
 
@@ -63,8 +60,55 @@ public class AuctionServiceImpl implements AuctionService {
 
         auction.setCreatedAt(LocalDateTime.now());
 
+        auction.setAuctionState(AuctionState.BIDDING);
+
+        stateChange(postId,AuctionState.LOWER);
+
         auctionRepository.save(auction);
         postRepository.save(post);
+    }
+
+    @Override
+    public void immediate(Long postId, User user) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+        if(post.getStatus() == State.FINISHED){
+            throw new IllegalStateException("경매가 종료되었습니다.");
+        }
+
+        if(post.getUser().getId().equals(user.getId())){
+            throw new IllegalStateException("자신의 글에는 입찰할 수 없습니다.");
+        }
+
+        Long price = post.getImmediatePurchasePrice();
+
+        Auction auction = Auction.builder()
+                .post(post)
+                .user(user)
+                .price(price)
+                .auctionState(AuctionState.immediate)
+                .build();
+
+        auction.setCreatedAt(LocalDateTime.now());
+
+        auction.setAuctionState(AuctionState.immediate);
+
+        stateChange(postId,AuctionState.failed);
+        post.setStatus(State.FINISHED);
+
+        auctionRepository.save(auction);
+        postRepository.save(post);
+    }
+
+
+    @Override
+    public void stateChange(Long postId, AuctionState auctionState){
+        List<Auction> auctionList = auctionRepository.findByPostId(postId);
+        for(Auction auction : auctionList){
+            auction.setAuctionState(auctionState);
+            auctionRepository.save(auction);
+        }
     }
 
     @Override
@@ -77,6 +121,7 @@ public class AuctionServiceImpl implements AuctionService {
                         .post(auction.getPost().toDto())
                         .user(auction.getUser().toDto())
                         .price(auction.getPrice())
+                        .auctionState(auction.getAuctionState())
                         .createdAt(auction.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
@@ -92,6 +137,7 @@ public class AuctionServiceImpl implements AuctionService {
                         .post(auction.getPost().toDto())
                         .user(auction.getUser().toDto())
                         .price(auction.getPrice())
+                        .auctionState(auction.getAuctionState())
                         .createdAt(auction.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
@@ -107,6 +153,7 @@ public class AuctionServiceImpl implements AuctionService {
                         .post(auction.getPost().toDto())
                         .user(auction.getUser().toDto())
                         .price(auction.getPrice())
+                        .auctionState(auction.getAuctionState())
                         .createdAt(auction.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());

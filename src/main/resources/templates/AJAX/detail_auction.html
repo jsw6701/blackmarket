@@ -1,0 +1,30 @@
+<table class="table text-white">
+    <thead>
+    <tr>
+        <th scope="col">입찰가</th>
+        <th scope="col">입찰상태</th>
+        <th scope="col">이름</th>
+        <th scope="col">날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="auction : ${auctionList}">
+        <td th:text="${auction.price}"></td>
+
+        <td>
+            <div th:switch="${#strings.toString(auction.auctionState)}">
+                <p th:case="BIDDING">상위 입찰</p>
+                <p th:case="COMPLETED">최종 입찰</p>
+                <p th:case="LOWER">하위 입찰</p>
+                <p th:case="failed">하위 입찰</p>
+                <p th:case="immediate">즉시구매</p>
+                <p th:case="*">[[${auction.auctionState}]]</p>
+            </div>
+        </td>
+
+
+        <td th:text="${auction.user.name}"></td>
+        <td th:text="${auction.createdAt}"></td>
+    </tr>
+    </tbody>
+</table>

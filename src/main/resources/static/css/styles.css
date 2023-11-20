@@ -11234,7 +11234,7 @@ left: 0;
   border-radius: 0.2rem;
   color: #F9C978;
 }
-.buy_btn_box button.aution{
+.buy_btn_box button.auction{
   color: black;
   background: #F9C978;
 }
@@ -11511,4 +11511,35 @@ left: 0;
   font-size: 0.9rem;
   color:black;
   border-radius: 0.9rem;
+}
+
+.btn-update:hover{
+  background: #FFCE69;
+  color: black;
+}
+
+.fa-classic, .fa-regular, .fa-solid, .far, .fas {
+  font-family: "Font Awesome 6 Free";
+}
+.good-btn .active{
+  display: block;
+}
+.good-btn .hidden{
+  display: none;
+}
+.good-btn{
+  color : #FF3D00;
+  cursor : pointer;
+}
+.heart_active{
+  display: none;
+}
+.heart_hidden{
+  display: block;
+}
+.active .heart_active{
+  display: block;
+}
+.active .heart_hidden{
+  display: none;
 }

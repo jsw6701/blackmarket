@@ -33,7 +33,7 @@ public class KakaoPayService {
     @Value("fb3bbaaadb64f13ea12a6d2d6f056617")
     private String kakao_admin_key;
 
-    public String doKakaoPay() {
+    public String doKakaoPay(String price) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -50,9 +50,9 @@ public class KakaoPayService {
         params.add("partner_user_id", "gorany");
         params.add("item_name", "아이폰14");
         params.add("quantity", "1");
-        params.add("total_amount", "50000");
+        params.add("total_amount", price);
         params.add("tax_free_amount", "100");
-        params.add("approval_url", "http://localhost:8080/kakaoPaySuccess");
+        params.add("approval_url", "http://localhost:8080/kakaoPaySuccess?price="+price);
         params.add("cancel_url", "http://localhost:8080/kakaoPayCancel");
         params.add("fail_url", "http://localhost:8080/kakaoPaySuccessFail");
 

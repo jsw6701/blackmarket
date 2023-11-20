@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Black Maket</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Navigation-->
+<div th:replace="fragments/navigation"></div>
+
+
+<!-- Header-->
+<div th:replace="fragments/main_header"></div>
+
+<!-- Section-->
+<div th:replace="fragments/carousel"></div>
+<hr>
+
+<section class="pt-1 pb-5">
+
+</section>
+
+<!-- Footer-->
+<div th:replace="fragments/footer"></div>
+
+<div th:replace="modal/login"></div>
+<div th:replace="modal/join"></div>
+<div th:replace="modal/post_detail"></div>
+<div th:replace="modal/post"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+
+</body>
+
+</html>

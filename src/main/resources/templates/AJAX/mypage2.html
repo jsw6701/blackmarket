@@ -1,0 +1,18 @@
+<table class="table text-white">
+  <thead>
+  <tr>
+    <th scope="col" style="width: 25%;">마감일시</th>
+    <th scope="col">제목</th>
+    <th scope="col">입찰가</th>
+    <th scope="col">입찰상태</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="auction : ${auctionList}">
+    <th th:text="${auction.getPost().getTargetDate()}" scope="row"></th>
+    <td th:text="${auction.getPost().getTitle()}"></td>
+    <td th:text="${auction.getPrice()}"></td>
+    <td th:text="${auction.getAuctionState()}"></td>
+  </tr>
+  </tbody>
+</table>

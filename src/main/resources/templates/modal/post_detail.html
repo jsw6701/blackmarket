@@ -39,26 +39,6 @@
                                 </div>
 
                             </div>
-<!--                            <img class="col-12" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                            <div class="col-10 mx-auto mt-2">-->
-<!--                                <div class="row img-box">-->
-<!--                                    <div class="col">-->
-<!--                                        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                    </div>-->
-<!--                                    <div class="col">-->
-<!--                                        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                    </div>-->
-<!--                                    <div class="col">-->
-<!--                                        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                    </div>-->
-<!--                                    <div class="col">-->
-<!--                                        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                    </div>-->
-<!--                                    <div class="col">-->
-<!--                                        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </div>
                         <div class="col-xs-12 col-xl-6">
                             <div class="row">
@@ -69,25 +49,34 @@
                                     </button>
                                 </div>
                                 <div class="col-12">
-                                    <div id="post_detail_title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
+                                    <div id="post_detail_title">
+                                        어나더 트라이얼 런처 스트라이크E (루카스 전용기)
+                                    </div>
+<!--                                    <div class="good-btn active">-->
+<!--                                        <i class="fa-solid fa-heart heart_active"></i>-->
+<!--                                        <i class="fa-regular fa-heart heart_hidden"></i>-->
+<!--                                    </div>-->
+
                                     <div class="my-2 mb-2 detail_option_box">
-                                        <input type="radio" class="btn-check" name="detail" id="detail" autocomplete="off" checked>
+                                        <input type="radio" class="btn-check detail-btn" name="detail" id="detail" autocomplete="off" checked>
                                         <label class="btn btn-secondary" for="detail">상품설명</label>
                                         <!-- <label class="px-3 py-2" for="option1">최근 게시된</label> -->
 
-                                        <input type="radio" class="btn-check" name="detail" id="history" autocomplete="off">
+                                        <input type="radio" class="btn-check detail-btn" name="detail" id="history" autocomplete="off">
                                         <label class="btn btn-secondary" for="history">입찰내역</label>
                                     </div>
                                 </div>
-                                <div class="col-12 detail-text py-1" id="post_detail_content">
+                                <div class="col-12 detail-text py-1" id="post_detail_content"></div>
+                                <div class="col-12 detail-text py-1" id="post_detail_auction" style="display: none;"></div>
 
-                                </div>
                                 <div class="row">
                                     <div class="col-4 modal-remain py-1">
                                         남은시간 :
                                     </div>
                                     <div class="col-8 modal-remain py-1 text-end">
-                                        3일 23시간 남음 (23. 10. 22 15:00 에 종료)
+                                        <span id="remain_time" style="color:#F9C978"></span>
+                                        <span id="target_date" style="color:#656565"></span>
+<!--                                        3일 23시간 남음 (23. 10. 22 15:00 에 종료)-->
                                     </div>
                                 </div>
                                 <div class="row">
@@ -98,6 +87,7 @@
                                         100,000,000원
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -105,20 +95,31 @@
                         <div class="col-sm-9 mx-auto">
                             <div class="row buy_btn_box">
                                 <div class="col-xs-12 col-sm-6">
-                                    <button class="buy py-2">
+                                    <button class="buy py-2" id="immediate">
                                         즉시구매
                                         <br><span style="color: #8B744D" id="post_detail_immediatePurchasePrice" ></span>
                                         <span style="color: #8B744D"> 원</span>
                                     </button>
                                 </div>
-                                <div class="col-xs-12 col-sm-6">
-                                    <button class="aution py-2">
+
+
+                                <div class="col-xs-12 col-sm-6 btn-group dropup">
+                                    <button type="button" class="btn auction py-2" data-bs-toggle="dropdown" aria-expanded="false">
                                         입찰
                                         <br><span style="color: #7D653C" id="post_detail_biddingPrice" ></span>
                                         <span style="color: #7D653C" > 원</span>
                                     </button>
+                                    <div class="dropdown-menu text-white text-center p-2" style="background-color: #313338">
+                                        현재 입찰 금액 : 1,000,000,000원<br>
+                                        정말로 입찰 하시겠습니까?
+                                        <button type="button" class="btn auction" id="confirm_auction">
+                                            입찰
+                                        </button>
+
+                                    </div>
                                 </div>
                             </div>
+                            <input type="hidden" id="post_id" value="">
                         </div>
                     </div>
                 </div>
