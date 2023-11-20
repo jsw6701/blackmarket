@@ -6,9 +6,9 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-auto">
                 <li class="nav-item"><a class="nav-link" th:class="${#strings.equals(#httpServletRequest.getRequestURI(), '/') ? 'nav-link active' : 'nav-link'}" href="/">온라인 경매</a></li>
                 <li class="nav-item"><a class="nav-link" th:class="${#strings.contains(#httpServletRequest.getRequestURI(), '/post/search') ? 'nav-link active' : 'nav-link'}" href="/post/searchPost">인기 경매</a></li>
-                <li class="nav-item"><a class="nav-link" href="/post/searchPost">마감 임박</a></li>
+                <li class="nav-item"><a class="nav-link" th:class="${#strings.contains(#httpServletRequest.getRequestURI(), '/post/deadline') ? 'nav-link active' : 'nav-link'}" href="/post/deadline">마감임박</a></li>
                 <li class="nav-item"><a class="nav-link" th:class="${#strings.contains(#httpServletRequest.getRequestURI(), '/charge') ? 'nav-link active' : 'nav-link'}" href="/charge">충전</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>
+<!--                <li class="nav-item"><a class="nav-link" href="#!">고객센터</a></li>-->
             </ul>
             <div th:if="${loginflag}">
                 <div class="d-inline text-white profile-btn-box">
@@ -17,10 +17,10 @@
                             <img src="/img/user-profile.png" style="width: 35px">
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark profile-dropdown" aria-labelledby="dropdownMenuButton1">
-                            <li class="px-4 py-2"><img src="/img/user-profile.png" style="width: 35px"> 김학진</li>
+                            <li class="px-4 py-2"><img src="/img/user-profile.png" style="width: 35px">[[${user.getName()}]]</li>
                             <li class="px-2">
                                 <div class="py-2 px-1" style="background-color: #461D6A; border-radius: 0.5rem;">
-                                    <i class="fa-solid fa-coins mx-1" style="color:#FFF500;"></i>1000000000원
+                                    <i class="fa-solid fa-coins mx-1" style="color:#FFF500;"></i>[[${user.getMoney()}]]원
                                 </div>
                                 <hr style="border-top: 1px solid #fff;">
                             </li>

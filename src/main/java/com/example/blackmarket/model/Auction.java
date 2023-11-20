@@ -27,14 +27,17 @@ public class Auction {
 
     private Long price;
 
+    private AuctionState auctionState;
+
     private LocalDateTime createdAt;
 
 
     @Builder
-    public Auction(Post post, User user, Long price, LocalDateTime createdAt) {
+    public Auction(Post post, User user, Long price,AuctionState auctionState ,LocalDateTime createdAt) {
         this.post = post;
         this.user = user;
         this.price = price;
+        this.auctionState = auctionState;
         this.createdAt = createdAt;
     }
 }

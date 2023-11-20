@@ -57,6 +57,7 @@ public class PostServiceImpl implements PostService{
                 .biddingPrice(postCreateDto.getBiddingPrice())
                 .biddingUnit(postCreateDto.getBiddingUnit())
                 .targetDate(LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay())
+                .viewCount(0L)
                 .fileArray(fileArray)
                 .category(category)
                 .user(user)
@@ -127,5 +128,23 @@ public class PostServiceImpl implements PostService{
         if ( admin.getRole().equals("ADMIN")){
             postRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public void updatePostStatus() {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        List<Post> postsToUpdate = postRepository.findByTargetDateBefore(currentDate);
+
+        for (Post post : postsToUpdate) {
+            post.setStatus(State.FINISHED);
+        }
+
+        postRepository.saveAll(postsToUpdate);
+    }
+
+    @Override
+    public List<Post> findPostListByUser(User user){
+        return postRepository.findByUser(user);
     }
 }

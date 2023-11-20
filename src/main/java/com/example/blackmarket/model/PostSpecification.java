@@ -39,6 +39,10 @@ public class PostSpecification {
         return (root, query, builder) -> builder.lessThan(root.get("targetDate"), deadline);
     }
 
+    public static Specification<Post> deadlineUpper(LocalDateTime deadline) {
+        return (root, query, builder) -> builder.greaterThan(root.get("targetDate"), deadline);
+    }
+
     public static Specification<Post> categoryId(Category category) {
         return (root, query, builder) -> builder.equal(root.get("category").get("id"), category);
     }

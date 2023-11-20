@@ -24,9 +24,9 @@
       <div class="col-xl-7 inside-float-left">
         <img src="/img/mypage_profile.png" style="width: 100px;">
         <div class="ms-4 mypage_profile_text">
-          <div class="mypage_profile_name">정승우</div>
+          <div class="mypage_profile_name">[[${user.getName()}]]</div>
           <div class="pt-3" style="color:#FFC107">
-            <i class="fa-solid fa-coins mx-1" style="color:#FFF500;"></i>남은포인트 : 50000
+            <i class="fa-solid fa-coins mx-1" style="color:#FFF500;"></i>남은포인트 : [[${user.getMoney()}]]
             <a href="/charge">
               <button class="px-3 py-1 mypage_charge_btn">충전</button>
             </a>
@@ -35,54 +35,32 @@
       </div>
       <div class="col-xl-3 row">
         <div class="col-sm-12 col-xl-6" >
-          구매내역 : 10건
+          구매내역 : 0건
         </div>
         <div class="col-sm-12 col-xl-6 ">
-          판매내역 : 10건
+          판매내역 : [[${sellCount}]]건
         </div>
       </div>
     </div>
     <div class="row">
-      <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
-      <label class="btn mypage-menu col py-2" for="option1">내 게시글</label>
-      <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+      <input type="radio" class="btn-check mypage-btns" name="options" id="option1" autocomplete="off" checked>
+      <label class="btn mypage-menu col py-2 " for="option1">내 게시글</label>
+      <input type="radio" class="btn-check mypage-btns" name="options" id="option2" autocomplete="off">
       <label class="btn mypage-menu col py-2" for="option2">입찰 내역</label>
-      <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" >
+      <input type="radio" class="btn-check mypage-btns" name="options" id="option3" autocomplete="off" >
       <label class="btn mypage-menu col py-2" for="option3">결제대기</label>
-      <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
-      <label class="btn mypage-menu col py-2" for="option4">북마크</label>
-      <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+<!--      <input type="radio" class="btn-check mypage-btns" name="options" id="option4" autocomplete="off">-->
+<!--      <label class="btn mypage-menu col py-2" for="option4">북마크</label>-->
+      <input type="radio" class="btn-check mypage-btns" name="options" id="option5" autocomplete="off">
       <label class="btn mypage-menu col py-2" for="option5">거래내역</label>
     </div>
   </div>
 </header>
 
 <section class="pt-1 pb-5">
-  <div class="container px-4 px-lg-5 mt-3">
+  <div class="container px-4 px-lg-5 mt-3 mypage_content">
+<!--    <div th:replace="AJAX/mypage1"></div>-->
 
-    <div class="row gx-4 gx-lg-5 justify-content-left">
-      <div class="col mb-5">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="profile.png" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-    <div class="text-center">
-      <a class="btn btn-outline-dark mt-auto py-2 plusbtn" href="#1">더보기</a>
-    </div>
   </div>
 </section>
 

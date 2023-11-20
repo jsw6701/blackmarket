@@ -1,0 +1,41 @@
+<div th:each="auction : ${auctionList}" class="row gx-4 gx-lg-5 justify-content-left">
+  <div class="col mb-5">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title row">
+              <div th:text="${auction.getPost().getTitle()}" class="col"></div>
+
+            </h4>
+            <div class="card-text row">
+              <div class="row">
+                <div class="col-6" style="color:#DC3545">
+                </div>
+                <div class="col-6" style="color: #FFCE69; font-size:1rem">
+                  <br>
+                  <i class="fa-solid fa-circle-dollar-to-slot"></i>최종 낙찰 금액 : [[${auction.getPrice()}]]원<br>
+                  <br>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">판매자와 채팅하기</button>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

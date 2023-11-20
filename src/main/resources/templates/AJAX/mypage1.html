@@ -1,0 +1,32 @@
+<div th:each="post : ${postList}" class="row gx-4 gx-lg-5 justify-content-left">
+  <div class="col mb-5">
+    <div class="card mb-3" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title row">
+              <div th:text="${post.title}" class="col"></div>
+              <div class="col text-end">입찰중</div>
+            </h5>
+            <div class="card-text row">
+              <div th:text="${post.content}" class="col-6 py-5" style="overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"></div>
+              <div class="col-6" style="color:#DC3545">
+                즉시구매가 : [[${post.immediatePurchasePrice}]]원<br>
+                상위 입찰 금액 : [[${post.biddingPrice}]]원
+                <br>
+                <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">내용수정하기</button>
+                <span>
+                  [[${post.targetDate}]]
+<!--                      3일 23시간 남음 (23.10.20 16:50)-->
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

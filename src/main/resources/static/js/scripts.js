@@ -14,6 +14,10 @@ const post_btns = document.querySelectorAll('.post-btns');
 const plus_btn = document.querySelector('.plusbtn');
 const card_posts = document.querySelectorAll('.card-post');
 const post_detail_inner = document.querySelector('.post-ditail-inner');
+const confirm_auction = document.querySelector('#confirm_auction');
+const mypage_btns = document.querySelectorAll('.mypage-btns');
+const immediate = document.querySelector("#immediate");
+const detail_btn = document.querySelectorAll('.detail-btn');
 
 const itemCount = item.length - 2;
 let startX = 0;         //mousedown시 위치
@@ -149,7 +153,13 @@ signup_btn.addEventListener('click', (e) => {
   var requestData = {
     "email": document.querySelector('#signup_email').value,
     "name": document.querySelector('#signup_name').value,
-    "password": document.querySelector('#signup_password').value
+    "password": document.querySelector('#signup_password').value,
+    "password2": document.querySelector('#signup_password2').value,
+    "phoneNumber" : document.querySelector('#signup_phone1').value +
+        document.querySelector('#signup_phone2').value +
+        document.querySelector('#signup_phone3').value,
+    "account" : "user",
+    "nickname": document.querySelector('#signup_nickname').value
   };
   sendAjaxRequest('/auth/signup', 'POST', requestData, function (error, response) {
     if (error) {
@@ -203,19 +213,21 @@ const dataTranster = new DataTransfer();
 
 const handler = {
   init() {
+    if(fileInput != null){
+      fileInput.addEventListener('change', () => {
+        console.dir(fileInput)
+        const files = Array.from(fileInput.files);
+        Array.from(files).forEach(file => {
+          dataTranster.items.add(file);
+        });
+        document.querySelector('#file-input').files = dataTranster.files;
 
-    fileInput.addEventListener('change', () => {
-      console.dir(fileInput)
-      const files = Array.from(fileInput.files);
-      Array.from(files).forEach(file => {
-            dataTranster.items.add(file);
-          });
-      document.querySelector('#file-input').files = dataTranster.files;
-
-      files.forEach(file => {
-        imageLoader(file);
+        files.forEach(file => {
+          imageLoader(file);
+        });
       });
-    });
+    }
+
   },
 
   removeFile: () => {
@@ -265,6 +277,7 @@ function load_recent(order, new_flag,size,page){
     }
   });
 }
+
 if(document.querySelector('.card-list') != null) {
   load_recent(orderText, true, orderPageSize, orderPageNum);
 }
@@ -283,6 +296,8 @@ post_btns.forEach(function(post_btn) {
       }
     });
 });
+
+
 
 if(plus_btn != null){
   plus_btn.addEventListener('click', function() {
@@ -317,6 +332,33 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_content').innerText = json.content;
       document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice;
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
+      document.querySelector('#post_id').value = json.id;
+
+      console.log(json);
+
+      const serverDate = new Date(json.targetDate);
+      const currentDate = new Date();
+      const timeDifference = serverDate - currentDate;
+      const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hoursDifference = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+      document.querySelector('#remain_time').innerHTML = daysDifference + "일 "+ hoursDifference + "시간 남음";
+      // console.log(daysDifference + "일 "+ hoursDifference + "시간 남음");
+
+      const formatter = new Intl.DateTimeFormat('ko-KR', {
+        year: '2-digit',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+
+      const formattedDateString = formatter.format(serverDate);
+      document.querySelector('#target_date').innerHTML = `(${formattedDateString} 에 종료)`;
+
+      console.log(`(${formattedDateString} 에 종료)`);
+
       post_detail_inner.innerHTML = "";
       for(var i = 0; i< json.fileArray.length; i++){
         if(i==0){
@@ -332,7 +374,104 @@ function post_detail_btn(element) {
         }
 
       }
-      // console.log(JSON.parse(response));
+
+    }
+  });
+  sendAjaxRequest('/auction/readByPost/'+dataIdValue, 'GET', requestData, function (error, response) {
+    if (error) {
+      // console.error('AJAX request error:', error);
+    } else {
+      document.querySelector('#post_detail_auction').innerHTML = response;
+
+
     }
   });
 }
+
+confirm_auction.addEventListener('click', (e) => {
+  let post_id = document.querySelector('#post_id').value
+  var requestData = {
+    "postid": post_id
+  };
+  sendAjaxRequest('/auction/create/'+ post_id, 'POST', requestData, function (error, response) {
+    if (error) {
+      // console.error('AJAX request error:', error);
+      // alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
+      // alert(error);
+      alert("로그인후 이용바랍니다.");
+    } else {
+      alert("입찰되었습니다.")
+    }
+  });
+});
+
+
+function my_page(url){
+  var requestData = {};
+  sendAjaxRequest(url, 'GET', requestData, function (error, response) {
+    if (error) {
+      console.error('AJAX request error:', error);
+      // alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
+    } else {
+      document.querySelector('.mypage_content').innerHTML = response;
+    }
+  });
+}
+
+if(document.querySelector('.mypage_content') != null) {
+  my_page("/mypage1");
+}
+mypage_btns.forEach(function(mypage_btn) {
+  mypage_btn.addEventListener('change', function() {
+    if (this.checked) {
+      var selectedId = this.id;
+      orderPageNum = 0;
+      console.log("Ddd");
+      if (selectedId === 'option1') {
+        my_page("/mypage1");
+      } else if (selectedId === 'option2') {
+        console.log("Ddd");
+        my_page("/mypage2");
+      } else if (selectedId === 'option3') {
+        my_page("/mypage3");
+      } else if (selectedId === 'option4') {
+        my_page("/mypage4");
+      } else if (selectedId === 'option5') {
+        my_page("/mypage5");
+      }
+    }
+  });
+});
+
+
+immediate.addEventListener('click', (e) => {
+  let post_id = document.querySelector('#post_id').value
+  var requestData = {
+    "postid": post_id
+  };
+  sendAjaxRequest('/auction/immediate/'+ post_id, 'POST', requestData, function (error, response) {
+    if (error) {
+      // alert(error);
+      alert("로그인후 이용바랍니다. ")
+    } else {
+      alert("즉시구매가 완료되었습니다.")
+      location.reload();
+    }
+  });
+});
+
+detail_btn.forEach(function(detail) {
+  detail.addEventListener('change', function() {
+    if (this.checked) {
+      var selectedId = this.id;
+      orderPageNum = 0;
+      if (selectedId === 'detail') {
+        document.querySelector("#post_detail_content").style.display = "block";
+        document.querySelector("#post_detail_auction").style.display = "none";
+      } else if (selectedId === 'history') {
+        document.querySelector("#post_detail_content").style.display = "none";
+        document.querySelector("#post_detail_auction").style.display = "block";
+      }
+    }
+  });
+});

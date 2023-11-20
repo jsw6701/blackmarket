@@ -9,6 +9,8 @@ import com.example.blackmarket.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface PostService {
     Post findById(Long id);
 
@@ -23,4 +25,8 @@ public interface PostService {
     Page<PostDto> findPostList(Pageable pageable);
 
     Page<PostDto> findPostByCategoryId(Long categoryId, Pageable pageable);
+
+    List<Post> findPostListByUser(User user);
+
+    void updatePostStatus();
 }

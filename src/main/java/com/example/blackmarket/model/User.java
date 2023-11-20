@@ -55,6 +55,7 @@ public class User {
                 .id(id)
                 .email(email)
                 .name(name)
+                .money(money)
                 .imageUrl(imageUrl)
                 .role(role)
                 .emailVerified(emailVerified)
