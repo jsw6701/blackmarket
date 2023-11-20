@@ -1,5 +1,6 @@
 package com.example.blackmarket.model;
 
+import com.example.blackmarket.dto.response.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +27,15 @@ public class ChatRoomEntity {
     @OneToMany(fetch = FetchType.EAGER)
     private List<ChatMessageEntity> messages;
 
-    public static ChatRoomEntity toChatRoomEntity(String name, String roomId){
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Post post;
+
+    public static ChatRoomEntity toChatRoomEntity(String name, String roomId, Post post){
         ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
 
         chatRoomEntity.setName(name);
         chatRoomEntity.setRoomId(roomId);
+        chatRoomEntity.setPost(post);
 
         return chatRoomEntity;
     }

@@ -2,6 +2,7 @@ package com.example.blackmarket.repository;
 
 import com.example.blackmarket.dto.ChatRoomDTO;
 import com.example.blackmarket.model.ChatRoomEntity;
+import com.example.blackmarket.model.Post;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -38,10 +39,10 @@ public class ChatRoomDtoRepository {
         return chatRoomDTOMap.get(name);
     }
 
-    public String createChatRoomDTO(String name){
+    public String createChatRoomDTO(String name, Post post){
         ChatRoomDTO room = ChatRoomDTO.create(name);
         chatRoomDTOMap.put(room.getRoomId(), room);
-        ChatRoomEntity chatRoomEntity = ChatRoomEntity.toChatRoomEntity(room.getName(), room.getRoomId());
+        ChatRoomEntity chatRoomEntity = ChatRoomEntity.toChatRoomEntity(room.getName(), room.getRoomId(), post);
         chatRoomRepository.save(chatRoomEntity);
         return name;
     }

@@ -56,4 +56,19 @@ public class PostDto {
         this.category = new CategoryDto(post.getCategory());
         this.user = new UserDto(post.getUser());
     }
+
+    public Post toEntity(){
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .createDate(createDate)
+                .targetDate(targetDate)
+                .viewCount(viewCount)
+                .immediatePurchasePrice(immediatePurchasePrice)
+                .biddingPrice(biddingPrice)
+                .biddingUnit(biddingUnit)
+                .status(state)
+                .fileArray(fileArray)
+                .build();
+    }
 }

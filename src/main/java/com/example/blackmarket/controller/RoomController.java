@@ -1,7 +1,10 @@
 package com.example.blackmarket.controller;
 
+import com.example.blackmarket.dto.response.PostDto;
+import com.example.blackmarket.model.Post;
 import com.example.blackmarket.repository.ChatRoomDtoRepository;
 import com.example.blackmarket.repository.ChatRoomRepository;
+import com.example.blackmarket.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,8 @@ public class RoomController {
 
     private final ChatRoomRepository chatRoomRepository;
 
+    private final PostService postService;
+
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
     public ModelAndView rooms(){
@@ -37,10 +42,11 @@ public class RoomController {
 
     //채팅방 개설
     @PostMapping(value = "/room")
-    public String create(@RequestParam String name, RedirectAttributes rttr){
+    public String create(@RequestParam String name, @RequestParam Long postId, RedirectAttributes rttr){
 
+        Post post = postService.findById(postId);
         log.info("# Create Chat Room , name: " + name);
-        rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
+        rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name, post));
         return "redirect:/chat/rooms";
     }
 

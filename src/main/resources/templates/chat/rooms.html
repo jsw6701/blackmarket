@@ -10,9 +10,18 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Form for Creating Chat Room -->
         <form th:action="@{/chat/room}" method="post">
-            <input type="text" name="name" class="form-control">
-            <button class="btn btn-secondary btn-create">개설하기</button>
+            <div>
+                <label for="name">Room Name:</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter Room Name">
+            </div>
+            <div>
+                <label for="postId">Post ID:</label>
+                <input type="text" id="postId" name="postId" class="form-control" placeholder="Enter Post ID">
+            </div>
+            <button class="btn btn-secondary btn-create">Create Room</button>
         </form>
 
         <script th:inline="javascript">
