@@ -35,10 +35,10 @@
                     <hr class="hr-line">
                 </div>
                 <div class="row">
-                    <div class="col justify-content-center text-center py-7 pay-box">
-                        <h4 class="text-white">네이버페이</h4>
-                        <img src="./img/naver_pay.png"/>
-                    </div>
+<!--                    <div class="col justify-content-center text-center py-7 pay-box">-->
+<!--                        <h4 class="text-white">네이버페이</h4>-->
+<!--                        <img src="./img/naver_pay.png"/>-->
+<!--                    </div>-->
                     <div class="col justify-content-center text-center py-7 pay-box">
                         <h4 class="text-white">카카오페이</h4>
                         <img src="./img/kakao_pay.png"/>
@@ -58,16 +58,16 @@
                     <hr class="hr-line">
                 </div>
                 <div class="row">
-                    <input type="radio" class="btn-check display-none" name="options" id="option1" autocomplete="off" checked>
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option1" value="5000" autocomplete="off" checked>
                     <label class="col py-2 text-white pay-price-box" for="option1">5,000원</label>
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option2" autocomplete="off">
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option2" value="10000" autocomplete="off">
                     <label class="col py-2 text-white pay-price-box" for="option2">1,0000원</label>
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option3" autocomplete="off">
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option3" value="30000" autocomplete="off">
                     <label class="col py-2 text-white pay-price-box" for="option3">3,0000원</label>
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option4" autocomplete="off">
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option4" value="50000" autocomplete="off">
                     <label class="col py-2 text-white pay-price-box right-borer-none" for="option4">5,0000원</label>
 
                     
@@ -79,15 +79,15 @@
                 </div>
                 <div class="row">
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option5" autocomplete="off" >
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option5" value="100000" autocomplete="off" >
                     <label class="col py-2 text-white pay-price-box" for="option5">100,000원</label>
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option6" autocomplete="off" >
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option6" value="200000" autocomplete="off" >
                     <label class="col py-2 text-white pay-price-box" for="option6">200,000원</label>
 
-                    <input type="radio" class="btn-check display-none" name="options" id="option7" autocomplete="off" >
+                    <input type="radio" class="btn-check display-none" name="charge_price" id="option7" value="self" autocomplete="off" >
                     <label class="col-6 py-2 text-white pay-price-box text-center right-borer-none" for="option7">
-                        <input type="text" id="self-price" class="text-center text-white" for="option7" placeholder="직접입력">원
+                        <input type="text" id="self-price" class="text-center text-white" for="option7" value="" placeholder="직접입력">원
                     </label>
 
                     <!-- <div class="col-6 py-2 text-white pay-price-box text-center">
@@ -109,7 +109,7 @@
                 </div>
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <div class="p-2  text-end text-white">
-                        0원
+                        <span id="user-money">[[${user.getMoney()}]]</span>원
                     </div>
                     <div class="p-2  text-end text-white">
                         보유 중인 마일리지
@@ -117,7 +117,7 @@
                 </div>
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <div class="p-2  text-end text-white">
-                        0원
+                        <span id="user-plus-money">0</span>원
                     </div>
                     <div class="p-2  text-end text-white">
                         충전 후 마일리지
@@ -129,7 +129,7 @@
             <div class="container mt-3 pt-3">
 
                 <div class="row">
-                    <button type="button" class="btn btn-primary col-lg-6 col-12 mx-auto">결제하기</button>
+                    <button type="button" class="btn btn-primary col-lg-6 col-12 mx-auto" onclick='kakaopay_btn()'>결제하기</button>
                 </div>
             </div>
         </section>

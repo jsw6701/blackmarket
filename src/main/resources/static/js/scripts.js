@@ -475,3 +475,39 @@ detail_btn.forEach(function(detail) {
     }
   });
 });
+function kakaopay_btn(){
+  window.open("kakaopay?price="+getSelectedValue(), "a", "width=400, height=800, left=100, top=50");
+}
+function getSelectedValue() {
+  var radios = document.getElementsByName('charge_price');
+
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].checked) {
+      if(radios[i].value=="self"){
+        if(document.querySelector('#self-price').value != ""){
+          return document.querySelector('#self-price').value;
+        }
+      }
+      return radios[i].value;
+    }
+  }
+
+  return null; // 선택된 값이 없을 경우 null 반환
+}
+
+
+if(document.getElementsByName('charge_price') != null) {
+  document.querySelector("#user-plus-money").innerText = parseInt(getSelectedValue()) + parseInt(document.querySelector("#user-money").innerText);
+}
+
+
+if(document.getElementsByName('charge_price') != null){
+  document.getElementsByName('charge_price').forEach(function(charge_text) {
+    charge_text.addEventListener('change', function() {
+      if (this.checked) {
+        document.querySelector("#user-plus-money").innerText = parseInt(getSelectedValue()) + parseInt(document.querySelector("#user-money").innerText);
+      }
+    });
+  });
+}
+

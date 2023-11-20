@@ -76,10 +76,13 @@ public class HttpController {
     public String charge(Model model, @CurrentUser UserPrincipal userPrincipal) {
         boolean loginflag = false;
         if(userPrincipal != null){
+
             loginflag = true;
             User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 
             model.addAttribute("user",user);
+        }else{
+            return "redirect:/index";
         }
 
         model.addAttribute("loginflag",loginflag);
