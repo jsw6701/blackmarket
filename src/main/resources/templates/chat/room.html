@@ -31,7 +31,7 @@
         <div th:replace="fragments/chatside"></div>
         <!-- Page Content -->
         <div th:replace="fragments/chatcontent"></div>
-
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -57,6 +57,7 @@
                     data: {roomId: roomId},
                     success: function(messages) {
                         messages.forEach(function(message) {
+                            console.log(message.writer == username);
                             appendMessage(message.writer, message.message);
                         });
                     },
@@ -67,9 +68,14 @@
             }
 
             function appendMessage(writer, message) {
-                var str = '<div class="col-6">';
-                str += writer === username ? '<div class="alert alert-secondary">' : '<div class="alert alert-warning">';
-                str += '<b>' + writer + ' : ' + message + '</b></div></div>';
+                // var str = '<div class="col-6">';
+                var str = writer === username ?  '<div class="d-flex justify-content-end">' : '<div class="d-flex">';
+                if(writer != username){
+                    str += '<img src="/img/user-profile.png" style="width: 20px; height: 20px;">';
+                    str += '<b>' + writer + '</b><br>';
+                }
+                str += writer === username ? '<div class="alert alert-me">' : '<div class="alert alert-other">';
+                str += '<b> ' + message + '</b></div></div>';
                 $("#msgArea").append(str);
             }
 
@@ -90,15 +96,17 @@
                     var str = '';
 
                     if(writer === username){
-                        str = "<div class='col-6'>";
-                        str += "<div class='alert alert-secondary'>";
-                        str += "<b>" + writer + " : " + content.message + "</b>";
+                        str = "<div class='d-flex justify-content-end'>";
+                        str += "<div class='alert alert-me'>";
+                        str += "<b>" + content.message + "</b>";
                         str += "</div></div>";
                     }
                     else{
-                        str = "<div class='col-6'>";
-                        str += "<div class='alert alert-warning'>";
-                        str += "<b>" + writer + " : " + content.message + "</b>";
+                        str = "<div class='d-flex'>";
+                        str += '<img src="/img/user-profile.png" style="width: 20px; height: 20px;">';
+                        str += '<b>' + writer + '</b><br>';
+                        str += "<div class='alert alert-other'>";
+                        str += "<b>" + content.message + "</b>";
                         str += "</div></div>";
                     }
 

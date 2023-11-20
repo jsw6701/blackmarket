@@ -11600,3 +11600,13 @@ left: 0;
 .mypage-btns{
   display: none;
 }
+.alert-other{
+  background: #2B2E37;
+  color:white;
+  border-radius: 1rem;
+}
+.alert-me{
+  background: #FFCE69;
+  color:black;
+  border-radius: 1rem;
+}
