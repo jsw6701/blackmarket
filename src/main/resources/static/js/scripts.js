@@ -497,7 +497,9 @@ function getSelectedValue() {
 
 
 if(document.getElementsByName('charge_price') != null) {
-  document.querySelector("#user-plus-money").innerText = parseInt(getSelectedValue()) + parseInt(document.querySelector("#user-money").innerText);
+  if(document.querySelector("#user-money") != null) {
+    document.querySelector("#user-plus-money").innerText = parseInt(getSelectedValue()) + parseInt(document.querySelector("#user-money").innerText);
+  }
 }
 
 
