@@ -48,7 +48,7 @@ public class KakaoPayService {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", "1001");
         params.add("partner_user_id", "gorany");
-        params.add("item_name", "아이폰14");
+        params.add("item_name", "코인 충전");
         params.add("quantity", "1");
         params.add("total_amount", price);
         params.add("tax_free_amount", "100");
@@ -101,7 +101,7 @@ public class KakaoPayService {
         transaction.setTransactionId(kakaoPayResponse.getTid());
         transaction.setOrderId("1001"); // Or get it dynamically
         transaction.setUserId("gorany"); // Or get it dynamically
-        transaction.setItemName("아이폰14"); // Or get it dynamically
+        transaction.setItemName("코인 충전"); // Or get it dynamically
         transaction.setQuantity(1); // Or get it dynamically
         transaction.setTotalAmount(2100.0); // Or get it dynamically
 
