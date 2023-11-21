@@ -4,6 +4,8 @@ import com.example.blackmarket.dto.response.PostDto;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.repository.ChatRoomDtoRepository;
 import com.example.blackmarket.repository.ChatRoomRepository;
+import com.example.blackmarket.security.CurrentUser;
+import com.example.blackmarket.security.UserPrincipal;
 import com.example.blackmarket.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,15 +32,19 @@ public class RoomController {
 
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
-    public ModelAndView rooms(){
-
+    public ModelAndView rooms(@CurrentUser UserPrincipal userPrincipal){
+        boolean loginflag = false;
+        if(userPrincipal != null){
+            loginflag = true;
+        }
         log.info("# All Chat Rooms");
         ModelAndView mv = new ModelAndView("chat/rooms");
 
         mv.addObject("list", chatRoomRepository.findAll());
-
+        mv.addObject("loginflag",loginflag);
         return mv;
     }
+
 
     //채팅방 개설
     @PostMapping(value = "/room")
@@ -52,10 +58,14 @@ public class RoomController {
 
     //채팅방 조회
     @GetMapping("/room")
-    public void getRoom(String roomId, Model model){
-
+    public void getRoom(String roomId, Model model, @CurrentUser UserPrincipal userPrincipal){
+        boolean loginflag = false;
+        if(userPrincipal != null){
+            loginflag = true;
+        }
         log.info("# get Chat Room, roomID : " + roomId);
-
+        model.addAttribute("list", chatRoomRepository.findAll());
+        model.addAttribute("loginflag",loginflag);
         model.addAttribute("room", chatRoomRepository.findByRoomId(roomId));
     }
 

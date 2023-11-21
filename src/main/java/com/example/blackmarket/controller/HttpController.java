@@ -51,6 +51,8 @@ public class HttpController {
         return "index";
     }
 
+
+
     @GetMapping("/mypage")
     public String mypage(Model model, @CurrentUser UserPrincipal userPrincipal) {
         boolean loginflag = false;

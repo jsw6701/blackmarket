@@ -29,12 +29,12 @@ public class StompChatController {
 
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
-        message.setMessage(message.getWriter() + "님이 입장하셨습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByRoomId(message.getRoomId());
-        ChatMessageSaveDTO chatMessageSaveDTO = new ChatMessageSaveDTO(message.getRoomId(), message.getWriter(), message.getMessage());
-        chatMessageRepository.save(ChatMessageEntity.toChatEntity(chatMessageSaveDTO, chatRoomEntity));
+//        message.setMessage(message.getWriter() + "님이 입장하셨습니다.");
+//        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//
+//        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByRoomId(message.getRoomId());
+//        ChatMessageSaveDTO chatMessageSaveDTO = new ChatMessageSaveDTO(message.getRoomId(), message.getWriter(), message.getMessage());
+//        chatMessageRepository.save(ChatMessageEntity.toChatEntity(chatMessageSaveDTO, chatRoomEntity));
     }
 
     @MessageMapping(value = "/chat/message")
