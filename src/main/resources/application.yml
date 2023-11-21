@@ -41,7 +41,7 @@ spring:
           starttls:
             enable: true
   profiles:
-    include: local
+    include: prod
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
