@@ -1,7 +1,6 @@
 package com.example.blackmarket.service;
 
 import com.example.blackmarket.dto.response.AuctionDto;
-import com.example.blackmarket.model.Auction;
 import com.example.blackmarket.model.AuctionState;
 import com.example.blackmarket.model.User;
 
@@ -22,5 +21,5 @@ public interface AuctionService {
 
     List<AuctionDto> findByUserId(Long userId);
 
-
+    List<AuctionDto> findByUserIdForMyPage(Long userId);
 }

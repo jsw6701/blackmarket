@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -157,5 +160,31 @@ public class AuctionServiceImpl implements AuctionService {
                         .createdAt(auction.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AuctionDto> findByUserIdForMyPage(Long userId) {
+        List<Auction> userAuctions  = auctionRepository.findByUserId(userId);
+
+        Map<Long, Optional<Auction>> highestAuctionMap = userAuctions.stream()
+                .collect(Collectors.groupingBy(auction -> auction.getPost().getId(),
+                        Collectors.maxBy(Comparator.comparing(Auction::getPrice))));
+
+        List<Auction> highestAuctions = highestAuctionMap.values().stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+
+        return highestAuctions.stream()
+                .map(auction -> AuctionDto.builder()
+                        .id(auction.getId())
+                        .post(auction.getPost().toDto())
+                        .user(auction.getUser().toDto())
+                        .price(auction.getPrice())
+                        .auctionState(auction.getAuctionState())
+                        .createdAt(auction.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+
     }
 }

@@ -376,7 +376,7 @@ public class PostController {
         User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 //        List<Post> postList = auctionRepository.findDistinctByUser(user);
 
-        List<AuctionDto> auction = auctionService.findByUserId(user.getId());
+        List<AuctionDto> auction = auctionService.findByUserIdForMyPage(user.getId());
 
         model.addAttribute("auctionList", auction);
 
