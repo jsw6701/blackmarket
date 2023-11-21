@@ -1,6 +1,8 @@
 package com.example.blackmarket.controller;
 
+import com.example.blackmarket.dto.ChatRoomDTO;
 import com.example.blackmarket.dto.response.PostDto;
+import com.example.blackmarket.model.ChatRoomEntity;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.repository.ChatRoomDtoRepository;
 import com.example.blackmarket.repository.ChatRoomRepository;
@@ -43,6 +45,25 @@ public class RoomController {
         mv.addObject("list", chatRoomRepository.findAll());
         mv.addObject("loginflag",loginflag);
         return mv;
+    }
+
+    //채팅방 개설
+    @GetMapping(value = "/start")
+    public String createRoom(@RequestParam Long postId, RedirectAttributes rttr,@CurrentUser UserPrincipal userPrincipal){
+
+        Post post = postService.findById(postId);
+        String name = post.getId()+"||"+userPrincipal.getId()+"||"+post.getUser().getId();
+
+        log.info("# Create Chat Room , name: " + name);
+
+        ChatRoomDTO room = null;
+        ChatRoomEntity roomEntity = chatRoomRepository.findByName(name);
+        if(roomEntity == null){
+            room = repository.createChatRoomDTO44(name,post);
+            return "redirect:/chat/room?roomId="+room.getRoomId();
+        }else{
+            return "redirect:/chat/room?roomId="+roomEntity.getRoomId();
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.blackmarket.dto;
 
+import com.example.blackmarket.model.ChatRoomEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
@@ -23,4 +24,5 @@ public class ChatRoomDTO {
         room.name = name;
         return room;
     }
+
 }

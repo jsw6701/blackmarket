@@ -46,4 +46,11 @@ public class ChatRoomDtoRepository {
         chatRoomRepository.save(chatRoomEntity);
         return name;
     }
+    public ChatRoomDTO createChatRoomDTO44(String name, Post post){
+        ChatRoomDTO room = ChatRoomDTO.create(name);
+        chatRoomDTOMap.put(room.getRoomId(), room);
+        ChatRoomEntity chatRoomEntity = ChatRoomEntity.toChatRoomEntity(room.getName(), room.getRoomId(), post);
+        chatRoomRepository.save(chatRoomEntity);
+        return room;
+    }
 }

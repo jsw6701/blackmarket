@@ -22,7 +22,7 @@
             </div>
             <div class="col-10">
                 <div class="input-group mb-3 ps-1 pe-2 py-2 chat-input-box" style="">
-                    <input type="text" id="msg" class="form-control" placeholder="채팅을 입력하세요.">
+                    <input type="text" id="msg" class="form-control" placeholder="채팅을 입력하세요." onKeypress="javascript:if(event.keyCode==13) {$('#button-send').click() }">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary btn-chat-submit" type="button" id="button-send">전송</button>
                     </div>

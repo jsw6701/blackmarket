@@ -334,6 +334,7 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice;
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
       document.querySelector('#post_id').value = json.id;
+      document.querySelector(".post-chat-btn-link").href="/chat/start?postId="+json.id;
 
       console.log(json);
 
