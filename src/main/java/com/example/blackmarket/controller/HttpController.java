@@ -84,7 +84,7 @@ public class HttpController {
 
             model.addAttribute("user",user);
         }else{
-            return "redirect:/index";
+            return "redirect:/";
         }
 
         model.addAttribute("loginflag",loginflag);
@@ -95,7 +95,7 @@ public class HttpController {
     public String originalPage() {
         // 다른 페이지로 리다이렉트
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @PatchMapping("bookmark/{postId}")

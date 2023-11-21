@@ -11088,6 +11088,9 @@ left: 0;
 .tag .blue{
   background-color: #0D6EFD;
 }
+.tag .gray{
+  background-color: #6C757D;
+}
 .card *{
   font-family: 'Pretendard-Regular';
 }
@@ -11609,4 +11612,7 @@ left: 0;
   background: #FFCE69;
   color:black;
   border-radius: 1rem;
+}
+.post-ditail-inner .carousel-item img{
+  height: 100%;
 }

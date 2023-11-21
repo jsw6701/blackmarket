@@ -9,7 +9,18 @@
                     <div class="author" th:text="${post.user.getName()}"></div>
                     <div class="my-3 tag">
                         <span th:if="${post.immediatePurchasePrice != null and post.immediatePurchasePrice != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
-                        <span th:if="${T(java.time.LocalDateTime).now().plusDays(3).isBefore(post.targetDate)}" class="px-1 me-1 py-1 red">마감임박</span>
+                        <span
+                                th:if="${post.targetDate.isBefore(T(java.time.LocalDateTime).now().plusDays(3))&& !post.targetDate.isBefore(T(java.time.LocalDateTime).now())}"
+                                class="px-1 me-1 py-1 red">
+                            마감임박
+                        </span>
+                        <span
+                                th:if="${post.targetDate.isBefore(T(java.time.LocalDateTime).now())}"
+                                class="px-1 me-1 py-1 gray">
+                            경매마감
+                        </span>
+
+
                     </div>
                     <h5 class="title" th:text="${post.title}"></h5>
                     <div class="text-end">

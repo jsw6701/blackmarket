@@ -172,8 +172,7 @@ signup_btn.addEventListener('click', (e) => {
 
 });
 var a = "";
-login_btn.addEventListener('click', (e) => {
-
+function login(){
   var requestData = {
     "email": document.querySelector('#login_id').value,
     "password": document.querySelector('#login_password').value,
@@ -189,8 +188,9 @@ login_btn.addEventListener('click', (e) => {
       location.reload();
     }
   });
-  // bootstrap.Modal.getOrCreateInstance('#joinModal').hide();
-
+}
+login_btn.addEventListener('click', (e) => {
+  login();
 });
 
 imageLoader = function(file){
@@ -398,7 +398,11 @@ confirm_auction.addEventListener('click', (e) => {
       // console.error('AJAX request error:', error);
       // alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
       // alert(error);
-      alert("로그인후 이용바랍니다.");
+      if(document.querySelector(".user-name") == null){
+        alert("로그인 후 이용바랍니다.");
+      }else{
+        alert(error);
+      }
     } else {
       alert("입찰되었습니다.")
     }

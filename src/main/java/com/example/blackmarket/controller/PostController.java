@@ -118,6 +118,9 @@ public class PostController {
     @GetMapping("post/{postId}")
     public ResponseEntity<PostDto> findPostById(@PathVariable Long postId){
         Post post = postService.findById(postId);
+        post.setViewCount(post.getViewCount()+1L);
+        postRepository.save(post);
+
         return ResponseEntity.ok(new PostDto(post));
     }
 

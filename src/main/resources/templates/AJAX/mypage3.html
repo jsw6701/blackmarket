@@ -3,7 +3,7 @@
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">
+          <img th:if="${auction.getPost().getFileArray() != null and auction.getPost().getFileArray().size() > 0}" th:src="'/upload/' + ${auction.getPost().getFileArray()[0]}" alt="Image" class="card-img-top">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -27,8 +27,19 @@
                 <div class="col-6">
                   <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">판매자와 채팅하기</button>
                 </div>
-                <div class="col-6">
-                  <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">최종 결제하기</button>
+                <div class="col-6 dropup">
+                  <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" data-bs-toggle="dropdown" aria-expanded="false">최종 결제하기</button>
+
+                  <div class="dropdown-menu text-white text-center p-2" style="background-color: #313338">
+
+                    최종 결제 하시겠습니까?
+                    <button type="button" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                      결제
+                    </button>
+
+                  </div>
+
+
                 </div>
               </div>
 

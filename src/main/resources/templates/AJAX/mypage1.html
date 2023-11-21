@@ -3,7 +3,8 @@
     <div class="card mb-3" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">
+<!--          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">-->
+            <img th:if="${auction.getPost().getFileArray() != null and auction.getPost().getFileArray().size() > 0}" th:src="'/upload/' + ${auction.getPost().getFileArray()[0]}" alt="Image" class="card-img-top">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -18,10 +19,10 @@
                 상위 입찰 금액 : [[${post.biddingPrice}]]원
                 <br>
                 <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">내용수정하기</button>
-                <span>
-                  [[${post.targetDate}]]
+                <p class="text-end" style="color:#656565">
+                    [[${#temporals.format(post.targetDate, 'yy.MM.dd')}]]
 <!--                      3일 23시간 남음 (23.10.20 16:50)-->
-                </span>
+                </p>
               </div>
             </div>
           </div>

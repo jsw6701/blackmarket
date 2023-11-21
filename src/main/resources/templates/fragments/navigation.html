@@ -22,7 +22,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark profile-dropdown" aria-labelledby="dropdownMenuButton1">
                             <div sec:authorize="isAuthenticated()">
                             <li class="px-4 py-2"><img src="/img/user-profile.png" style="width: 35px">
-                                    <div style="display:inline; padding-left:10px;" sec:authentication="principal.username"></div>
+                                    <div style="display:inline; padding-left:10px;" class="user-name" sec:authentication="principal.username"></div>
                             <li class="px-2">
                                 <div class="py-2 px-1" style="background-color: #461D6A; border-radius: 0.5rem;">
                                     <i class="fa-solid fa-coins mx-1" style="color:#FFF500;"><div style="display:inline; padding-left:10px;" sec:authentication="principal.money"></div>원</i>
