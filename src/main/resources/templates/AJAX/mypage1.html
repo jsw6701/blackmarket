@@ -4,7 +4,7 @@
       <div class="row g-0">
         <div class="col-md-4">
 <!--          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">-->
-            <img th:if="${auction.getPost().getFileArray() != null and auction.getPost().getFileArray().size() > 0}" th:src="'/upload/' + ${auction.getPost().getFileArray()[0]}" alt="Image" class="card-img-top">
+            <img th:if="${post.getFileArray() != null and post.getFileArray().size() > 0}" th:src="'/upload/' + ${post.getFileArray()[0]}" alt="Image" class="card-img-top">
         </div>
         <div class="col-md-8">
           <div class="card-body">

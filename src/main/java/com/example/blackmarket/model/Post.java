@@ -84,6 +84,7 @@ public class Post {
                 .biddingPrice(this.biddingPrice)
                 .biddingUnit(this.biddingUnit)
                 .state(this.status)
+                .fileArray(this.fileArray)
                 .category(category.toDto())
                 .user(user.toDto())
                 .build();

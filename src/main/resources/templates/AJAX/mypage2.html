@@ -1,18 +1,128 @@
-<table class="table text-white">
-  <thead>
-  <tr>
-    <th scope="col" style="width: 25%;">마감일시</th>
-    <th scope="col">제목</th>
-    <th scope="col">입찰가</th>
-    <th scope="col">입찰상태</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="auction : ${auctionList}">
-    <th th:text="${auction.getPost().getTargetDate()}" scope="row"></th>
-    <td th:text="${auction.getPost().getTitle()}"></td>
-    <td th:text="${auction.getPrice()}"></td>
-    <td th:text="${auction.getAuctionState()}"></td>
-  </tr>
-  </tbody>
-</table>
+<!--<table class="table text-white">-->
+<!--  <thead>-->
+<!--  <tr>-->
+<!--    <th scope="col" style="width: 25%;">마감일시</th>-->
+<!--    <th scope="col">제목</th>-->
+<!--    <th scope="col">입찰가</th>-->
+<!--    <th scope="col">입찰상태</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--  <tr th:each="auction : ${auctionList}">-->
+<!--    <th th:text="${auction.getPost().getTargetDate()}" scope="row"></th>-->
+<!--    <td th:text="${auction.getPost().getTitle()}"></td>-->
+<!--    <td th:text="${auction.getPrice()}"></td>-->
+<!--    <td th:text="${auction.getAuctionState()}"></td>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+<!--</table>-->
+
+<div th:each="auction : ${auctionList}" class="row gx-4 gx-lg-5 justify-content-left">
+  <div class="col mb-5">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img th:if="${auction.getPost().getFileArray() != null && auction.getPost().getFileArray().size() > 0}" th:src="'/upload/' + ${auction.getPost().getFileArray()[0]}" alt="Image" class="card-img-top">
+
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title row">
+              <div th:text="${auction.getPost().getTitle()}" class="col"></div>
+
+            </h4>
+            <div class="card-text row">
+              <div class="row">
+                <div class="col-6 py-4 mypage-date" style="color:#F9C978">
+                  <div th:if="${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toDays()>=0 &&
+                  T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toDays() >= 0 &&
+                  T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toMinutesPart() >=0
+                  }">
+                    [[${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toDays()}]]일
+                    [[${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toHoursPart()}]]시간
+                    [[${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),auction.getPost().getTargetDate()).toMinutesPart()}]]분 남음
+                  </div>
+                </div>
+                <div class="col-6" style="">
+                  <span style="color:#D171E0">
+                    <div th:switch="${#strings.toString(auction.getAuctionState())}">
+                        <p th:case="BIDDING">현재 상위 입찰자 입니다.</p>
+                        <p th:case="COMPLETED">최종 입찰하셨습니다.</p>
+                        <p th:case="LOWER">현재 상위 입찰자가 있습니다.</p>
+                        <p th:case="failed">누군가 즉시구매하여 입찰에 실패하였습니다.</p>
+                        <p th:case="immediate">즉시구매</p>
+                        <p th:case="Waiting">현재 결제 대기중입니다.</p>
+                        <p th:case="*">[[${auction.getAuctionState()}]]</p>
+                    </div>
+
+                  </span>
+                  상위 입찰 금액 : [[${auction.getPost().getBiddingPrice()}]]원<br>
+                  <br>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div th:switch="${#strings.toString(auction.getAuctionState())}">
+                    <button th:case="BIDDING" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                      즉시 구매<br>
+                      [[${auction.getPost().getImmediatePurchasePrice()}]]원
+                    </button>
+                    <button th:case="LOWER" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                      즉시 구매<br>
+                      [[${auction.getPost().getImmediatePurchasePrice()}]]원
+                    </button>
+                  </div>
+
+
+
+
+
+                </div>
+                <div class="col-6">
+                  <div th:switch="${#strings.toString(auction.getAuctionState())}">
+                    <div th:case="BIDDING">
+                      <button class="btn" style="border: 1px #F9C978 solid;width: 100%;">
+                        입찰불가<br>
+                        내 입찰금액 : [[${auction.getPrice()}]]
+                      </button>
+
+                    </div>
+                    <div th:case="COMPLETED"></div>
+                    <div th:case="LOWER" class="dropup">
+                      <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" data-bs-toggle="dropdown" aria-expanded="false">
+                        입찰하기<br>
+                        [[${auction.getPrice()}]]
+                      </button>
+
+                      <div class="dropdown-menu text-white text-center p-2" style="background-color: #313338">
+
+                        상위 입찰하시겠습니까?
+                        <button type="button" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                          입찰
+                        </button>
+                      </div>
+                    </div>
+                    <div th:case="failed"></div>
+                    <div th:case="immediate"></div>
+                    <div th:case="Waiting"></div>
+                    <div th:case="*">[[${auction.getAuctionState()}]]</div>
+                  </div>
+
+
+
+
+                </div>
+
+
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
