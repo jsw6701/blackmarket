@@ -260,7 +260,7 @@ public class PostController {
             @RequestParam(value = "size", defaultValue = "12") int size,
             Model model,
             @CurrentUser UserPrincipal userPrincipal) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size,Sort.by("viewCount").descending());
 
         boolean loginflag = false;
         if(userPrincipal != null){

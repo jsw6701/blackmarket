@@ -124,7 +124,11 @@
                                     <div class="author" th:text="${post.user.getName()}"></div>
                                     <div class="my-3 tag">
                                         <span th:if="${post.immediatePurchasePrice != null and post.immediatePurchasePrice != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
-                                        <span th:if="${T(java.time.LocalDateTime).now().plusDays(3).isBefore(post.targetDate)}" class="px-1 me-1 py-1 red">마감임박</span>
+                                        <span
+                                                th:if="${post.targetDate.isBefore(T(java.time.LocalDateTime).now().plusDays(3))&& !post.targetDate.isBefore(T(java.time.LocalDateTime).now())}"
+                                                class="px-1 me-1 py-1 red">
+                                            마감임박
+                                        </span>
                                     </div>
                                     <h5 class="title" th:text="${post.title}"></h5>
                                     <div class="text-end">
@@ -145,7 +149,7 @@
                                 <a th:href="@{${url}(page=${currentPage - 1})}">&lt;</a>
                             </li>
                             <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNum == currentPage} ? 'active' : ''">
-                                <a href="#" th:text="${pageNum + 1}"></a>
+                                <a th:href="@{${url}(page=${pageNum})}" th:text="${pageNum + 1}"></a>
                             </li>
                             <li th:if="${currentPage + 1 < totalPages}">
                                 <a th:href="@{${url}(page=${currentPage + 1})}">&gt;</a>

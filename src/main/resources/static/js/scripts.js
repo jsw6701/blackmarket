@@ -165,7 +165,8 @@ signup_btn.addEventListener('click', (e) => {
     if (error) {
       console.error('AJAX request error:', error);
     } else {
-      console.log('AJAX response:', response);
+      // console.log('AJAX response:', response);
+      location.reload();
     }
   });
   // bootstrap.Modal.getOrCreateInstance('#joinModal').hide();
