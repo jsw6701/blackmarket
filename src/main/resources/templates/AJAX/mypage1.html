@@ -1,19 +1,28 @@
 <div th:each="post : ${postList}" class="row gx-4 gx-lg-5 justify-content-left">
   <div class="col mb-5">
-    <div class="card mb-3" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
+    <div class="card mb-3 py-3" style="background-color: #161619; cursor: default;">
       <div class="row g-0">
-        <div class="col-md-4">
+        <div class="col-md-4" style="height: 190px;overflow:hidden; cursor: pointer" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)" >
 <!--          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">-->
-            <img th:if="${post.getFileArray() != null and post.getFileArray().size() > 0}" th:src="'/upload/' + ${post.getFileArray()[0]}" alt="Image" class="card-img-top">
+            <img th:if="${post.getFileArray() != null and post.getFileArray().size() > 0}" th:src="'/upload/' + ${post.getFileArray()[0]}" alt="Image"  class="w-100" style="transform: translate(0%,-30%)">
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title row">
+            <h5 class="card-title row" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)" style="cursor: pointer;">
               <div th:text="${post.title}" class="col"></div>
-              <div class="col text-end">입찰중</div>
+              <div class="col text-end">
+                  <div th:switch="${#strings.toString(post.status)}" class="tag mypage-tag">
+                      <span th:case="WAITING" class="px-1 me-1 py-1 blue">입찰대기</span>
+                      <span th:case="BIDDING" class="px-1 me-1 py-1 blue">입찰중</span>
+                      <span th:case="BIDDED" class="px-1 me-1 py-1 yellow">낙찰</span>
+                      <span th:case="COMPLETED" class="px-1 me-1 py-1 yellow">입금완료</span>
+                      <span th:case="FINISHED" class="px-1 me-1 py-1 gray">경매종료</span>
+
+                  </div>
+              </div>
             </h5>
             <div class="card-text row">
-              <div th:text="${post.content}" class="col-6 py-5" style="overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"></div>
+              <div th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)" th:text="${post.content}" class="col-6 py-5" style="cursor:pointer;overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"></div>
               <div class="col-6" style="color:#DC3545">
                 즉시구매가 : [[${post.immediatePurchasePrice}]]원<br>
                 상위 입찰 금액 : [[${post.biddingPrice}]]원
