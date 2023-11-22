@@ -1,12 +1,15 @@
 package com.example.blackmarket.controller;
 
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
+import com.example.blackmarket.dto.response.AuctionDto;
 import com.example.blackmarket.dto.response.PostDto;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.model.User;
+import com.example.blackmarket.repository.AuctionRepository;
 import com.example.blackmarket.repository.UserRepository;
 import com.example.blackmarket.security.CurrentUser;
 import com.example.blackmarket.security.UserPrincipal;
+import com.example.blackmarket.service.AuctionService;
 import com.example.blackmarket.service.BookMarkService;
 import com.example.blackmarket.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +41,7 @@ public class HttpController {
 
     private PostService postService;
     private UserRepository userRepository;
+    private AuctionRepository auctionRepository;
 
     @GetMapping(value = {"/", "/index", "/main"})
     public String index(Model model, @CurrentUser UserPrincipal userPrincipal) {
@@ -48,6 +52,12 @@ public class HttpController {
             model.addAttribute("user",user);
         }
         model.addAttribute("loginflag",loginflag);
+
+        List<Post> PostList = auctionRepository.findTop5();
+
+        model.addAttribute("carouselList",PostList);
+
+
         return "index";
     }
 
@@ -95,6 +105,8 @@ public class HttpController {
     public String originalPage() {
         // 다른 페이지로 리다이렉트
 
+
+//        System.out.println(PostList.size());
         return "redirect:/";
     }
 

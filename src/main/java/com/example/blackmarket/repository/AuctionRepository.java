@@ -24,6 +24,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     @Query("SELECT p FROM Auction a JOIN a.post p WHERE p.id = a.post.id and a.user = :user")
     List<Post> findDistinctByUser(@Param("user") User user);
 
+    @Query("SELECT p FROM Auction a JOIN a.post p WHERE p.id = a.post.id GROUP BY p.id ORDER BY count(a) desc")
+    List<Post> findTop5();
 
 
 }

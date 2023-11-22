@@ -5,88 +5,36 @@
             <div class="wrapper">
                 <div class="items">
                     <div class="slide_item"></div>
-                    <div class="slide_item">
-                        <div class="content">
+                    <div th:each="post : ${carouselList}" class="slide_item">
+                        <div class="content"  th:attr="data-id=${post.getId()}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
                             <div class="imgbox">
-                                <img src="./img1.png">
+                                <img th:if="${post.getFileArray() != null and post.getFileArray().size() > 0}" th:src="'/upload/' + ${post.getFileArray()[0]}" src="./img1.png">
+
                             </div>
                             <div class="textbox">
-                                <div class="tag">즉시구매 마감 임박</div>
-                                <div class="title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
-                                <div class="remain-time">마감시간 : 7일</div>
+                                <div class="tag">
+                                    <span th:if="${post.getImmediatePurchasePrice() != null and post.getImmediatePurchasePrice() != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
+                                    <span
+                                            th:if="${post.getTargetDate().isBefore(T(java.time.LocalDateTime).now().plusDays(3))&& !post.getTargetDate().isBefore(T(java.time.LocalDateTime).now())}"
+                                            class="px-1 me-1 py-1 red">
+                                            마감임박
+                                    </span>
+                                </div>
+                                <div class="title">[[${post.getTitle()}]]</div>
+                                <div class="remain-time">마감시간 : [[${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),post.getTargetDate()).toDays()}]]일</div>
                                 <div class="author-price-box">
-                                    <div class="author">작성자</div>
-                                    <div class="price">1,000,000,000원</div>
+                                    <div class="author" style="flex-direction: row;">
+                                        <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                                        [[${post.getUser().getName()}]]
+                                    </div>
+                                    <div class="price">[[${post.getBiddingPrice()}]]원</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="slide_item">
-                        <div class="content">
-                            <div class="imgbox">
-                                <img src="./img1.png">
-                            </div>
-                            <div class="textbox">
-                                <div class="tag">즉시구매 마감 임박</div>
-                                <div class="title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
-                                <div class="remain-time">마감시간 : 7일</div>
-                                <div class="author-price-box">
-                                    <div class="author">작성자</div>
-                                    <div class="price">1,000,000,000원</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide_item">
-                        <div class="content">
-                            <div class="imgbox">
-                                <img src="./img1.png">
-                            </div>
-                            <div class="textbox">
-                                <div class="tag">즉시구매 마감 임박</div>
-                                <div class="title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
-                                <div class="remain-time">마감시간 : 7일</div>
-                                <div class="author-price-box">
-                                    <div class="author">작성자</div>
-                                    <div class="price">1,000,000,000원</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide_item">
-                        <div class="content">
-                            <div class="imgbox">
-                                <img src="./img1.png">
-                            </div>
-                            <div class="textbox">
-                                <div class="tag">즉시구매 마감 임박</div>
-                                <div class="title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
-                                <div class="remain-time">마감시간 : 7일</div>
-                                <div class="author-price-box">
-                                    <div class="author">작성자</div>
-                                    <div class="price">1,000,000,000원</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide_item">
-                        <div class="content">
-                            <div class="imgbox">
-                                <img src="./img1.png">
-                            </div>
-                            <div class="textbox">
-                                <div class="tag">즉시구매 마감 임박</div>
-                                <div class="title">어나더 트라이얼 런처 스트라이크E (루카스 전용기)</div>
-                                <div class="remain-time">마감시간 : 7일</div>
-                                <div class="author-price-box">
-                                    <div class="author">작성자</div>
-                                    <div class="price">1,000,000,000원</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide_item"><div class="content orange">4</div></div>
-                    <div class="slide_item"><div class="content orange">4</div></div>
+
+<!--                    <div class="slide_item"><div class="content orange">4</div></div>-->
+<!--                    <div class="slide_item"><div class="content orange">4</div></div>-->
                     <div class="slide_item"></div>
                 </div>
             </div>
