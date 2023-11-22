@@ -519,3 +519,24 @@ if(document.getElementsByName('charge_price') != null){
   });
 }
 
+function click_auction(element){
+  let post_id = element.dataset.id;
+  var requestData = {
+    "postid": post_id
+  };
+  sendAjaxRequest('/auction/create/'+ post_id, 'POST', requestData, function (error, response) {
+    if (error) {
+      // console.error('AJAX request error:', error);
+      // alert("잘못된 로그인 정보입니다. 다시시도해주세요.");
+      // alert(error);
+      if(document.querySelector(".user-name") == null){
+        alert("로그인 후 이용바랍니다.");
+      }else{
+        alert(error);
+      }
+    } else {
+      alert("입찰되었습니다.");
+      my_page("/mypage2");
+    }
+  });
+}
