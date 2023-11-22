@@ -11030,6 +11030,8 @@ left: 0;
 .items.active {
   transition: 0.2s;
 }
+
+
 .slide_item {
   width: 100%;
   max-width : 35rem;
@@ -11079,6 +11081,9 @@ left: 0;
   rgba(0,0,0,0.1) 100%
   );
 }
+
+
+
 .tag{
   font-size: 0.6rem;
 }
@@ -11634,4 +11639,85 @@ left: 0;
   height: 10%; /* 스크롤바의 길이 */
   background: #48494C; /* 스크롤바의 색상 */
   border-radius: 10px;
+}
+
+
+
+.multiple-items{
+  width: 100%;
+}
+
+
+.multiple-items .content{
+  position: relative;
+  width : 35rem;
+  height: 20rem;
+  border: 1px solid #c8c8c8;
+  box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+  border:none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 5rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+@media (max-width: 560px) {
+  .multiple-items .content{
+    width:340px;
+  }
+}
+.multiple-items .content .imgbox{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+}
+.multiple-items .content .imgbox img{
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.multiple-items .content .textbox{
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  font-size: 1.5rem;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient( to top,
+  rgba(0,0,0, 0.9) 20%,
+  rgba(0,0,0,0.1) 100%
+  );
+}
+
+.multiple-items .content .textbox .title{
+  width: 80%;
+}
+.multiple-items .content .textbox .remain-time{
+  font-size : 0.7rem;
+  width: 100%;
+  text-align: right;
+  color: #bbb;
+}
+.multiple-items .content .textbox .author-price-box{
+  display: flex;
+  flex-direction:row;
+}
+.multiple-items .content .textbox .author-price-box .author{
+  flex-grow: 1;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.multiple-items .content .textbox .author-price-box .price{
+  flex-grow: 3;
+  text-align: right;
+
 }

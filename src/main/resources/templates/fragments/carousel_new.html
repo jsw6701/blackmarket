@@ -1,0 +1,131 @@
+<section class="py-5">
+    <div class="multiple-items">
+        <div th:each="post : ${carouselList}" >
+            <div class="content mx-3" th:attr="data-id=${post.getId()}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)">
+                <div class="imgbox">
+                    <img th:if="${post.getFileArray() != null and post.getFileArray().size() > 0}" th:src="'/upload/' + ${post.getFileArray()[0]}">
+                </div>
+                <div class="textbox" style="position: relative;">
+                    <div class="tag">
+                        <span th:if="${post.getImmediatePurchasePrice() != null and post.getImmediatePurchasePrice() != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span
+                                th:if="${post.getTargetDate().isBefore(T(java.time.LocalDateTime).now().plusDays(3))&& !post.getTargetDate().isBefore(T(java.time.LocalDateTime).now())}"
+                                class="px-1 me-1 py-1 red">
+                                마감임박
+                        </span>
+                    </div>
+                    <div class="title">[[${post.getTitle()}]]</div>
+                    <div class="remain-time">마감시간 : [[${T(java.time.Duration).between(T(java.time.LocalDateTime).now(),post.getTargetDate()).toDays()}]]일</div>
+                    <div class="author-price-box">
+                        <div class="author" style="flex-direction: row;">
+                            <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                            [[${post.getUser().getName()}]]
+                        </div>
+                        <div class="price">[[${post.getBiddingPrice()}]]원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${carouselList.size() < 5}">
+            <div class="content mx-3">
+                <div class="imgbox">
+                    <img src="./img1.png">
+                </div>
+                <div class="textbox" style="position: relative;">
+                    <div class="tag">
+                        <span class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span class="px-1 me-1 py-1 red">마감임박</span>
+                    </div>
+                    <div class="title">11</div>
+                    <div class="remain-time">마감시간 : 11일</div>
+                    <div class="author-price-box">
+                        <div class="author" style="flex-direction: row;">
+                            <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                            1111
+                        </div>
+                        <div class="price">1111원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${carouselList.size() < 5}">
+            <div class="content mx-3">
+                <div class="imgbox">
+                    <img src="./img1.png">
+                </div>
+                <div class="textbox" style="position: relative;">
+                    <div class="tag">
+                        <span class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span class="px-1 me-1 py-1 red">마감임박</span>
+                    </div>
+                    <div class="title">11</div>
+                    <div class="remain-time">마감시간 : 11일</div>
+                    <div class="author-price-box">
+                        <div class="author" style="flex-direction: row;">
+                            <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                            1111
+                        </div>
+                        <div class="price">1111원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${carouselList.size() < 5}">
+            <div class="content mx-3">
+                <div class="imgbox">
+                    <img src="./img1.png">
+                </div>
+                <div class="textbox" style="position: relative;">
+                    <div class="tag">
+                        <span class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span class="px-1 me-1 py-1 red">마감임박</span>
+                    </div>
+                    <div class="title">11</div>
+                    <div class="remain-time">마감시간 : 11일</div>
+                    <div class="author-price-box">
+                        <div class="author" style="flex-direction: row;">
+                            <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                            1111
+                        </div>
+                        <div class="price">1111원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('.multiple-items').slick({
+        centerMode: true,
+        centerPadding: '60px',
+        infinite: true,
+        slidesToShow: 3,
+        arrows: false,
+        slidesToScroll: 1,
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+
+
+</script>

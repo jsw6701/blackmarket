@@ -3,8 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
-<body>
+<body style="background-color: #fff;">
 
+<section class="py-5">
+    <div class="multiple-items">
+        <div>
+            <div class="content mx-3">
+                <div class="imgbox">
+                    <img src="./img1.png">
+                </div>
+                <div class="textbox" style="position: relative;">
+                    <div class="tag">
+                        <span class="px-1 me-1 py-1 blue">즉시구매 </span>
+                        <span class="px-1 me-1 py-1 red">마감임박</span>
+                    </div>
+                    <div class="title">11</div>
+                    <div class="remain-time">마감시간 : 11일</div>
+                    <div class="author-price-box">
+                        <div class="author" style="flex-direction: row;">
+                            <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                            1111
+                        </div>
+                        <div class="price">1111원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('.multiple-items').slick({
+        centerMode: true,
+        centerPadding: '60px',
+        infinite: true,
+        arrows : false,
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+
+
+</script>
 </body>
 </html>
