@@ -22,6 +22,7 @@ jobs:
         run: |
           chmod +x ./gradlew
           ls -l ./gradlew
+
       - name: Run tests
         run: ./gradlew clean test
 
@@ -57,7 +58,6 @@ jobs:
             sudo systemctl start webapp
           EOF
           rm -f private_key.pem
-
       #- name: Notify Slack
       # if: failure()
       #  uses: 8398a7/action-slack@v3
