@@ -23,11 +23,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
@@ -46,7 +45,13 @@ public class HttpController {
     private AuctionRepository auctionRepository;
 
     @GetMapping(value = {"/", "/index", "/main"})
-    public String index(Model model, @CurrentUser UserPrincipal userPrincipal) {
+    public String index(Model model, @CurrentUser UserPrincipal userPrincipal,@RequestParam(value = "token", required = false) String token,HttpServletResponse response) {
+        if(token!=null){
+            Cookie cookie = new Cookie("jwtToken", token);
+            cookie.setMaxAge(60 * 60);  // 쿠키 유효 시간 : 1시간
+            response.addCookie(cookie);
+            return "redirect:/";
+        }
         boolean loginflag = false;
         if(userPrincipal != null){
             loginflag = true;
