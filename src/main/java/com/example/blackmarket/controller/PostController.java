@@ -64,16 +64,9 @@ public class PostController {
     public String createPost1(@ModelAttribute  PostCreateDto postCreateDto, @CurrentUser UserPrincipal userPrincipal){
 
         User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*********************************************************");
-        System.out.println("title : "+postCreateDto.getTitle());
-        System.out.println("날짜 : " + LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay());
-        System.out.println("content : "+postCreateDto.getContent());
 
         fileService.uploadFiles(postCreateDto.getFiles());
 
-        System.out.println();
-
-        System.out.println("*********************************************************\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         PostDto post = postService.createPost(postCreateDto, user);
         return "redirect:/index";
     }
@@ -82,7 +75,19 @@ public class PostController {
     @PatchMapping("post/{postId}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostUpdateDto postUpdateDto, @PathVariable Long postId, @CurrentUser User user){
         Post post = postService.updatePost(postUpdateDto, postId, user);
+        fileService.uploadFiles(postUpdateDto.getFiles());
         return ResponseEntity.ok(new PostDto(post));
+    }
+    @Operation(summary = "게시글 수정1")
+    @PostMapping("postUpdate/{postId}")
+    public String updatePost1(@ModelAttribute PostUpdateDto postUpdateDto, @PathVariable Long postId, @CurrentUser UserPrincipal userPrincipal){
+        System.out.println("dd");
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
+
+        Post post = postService.updatePost(postUpdateDto, postId, user);
+
+        fileService.uploadFiles(postUpdateDto.getFiles());
+        return "redirect:/mypage";
     }
 
     @Operation(summary = "게시글 삭제")
@@ -124,7 +129,14 @@ public class PostController {
         return ResponseEntity.ok(new PostDto(post));
     }
 
+    @Operation(summary = "게시글 상세 조회")
+    @GetMapping("post/update/{postId}")
+    public ResponseEntity<PostDto> findUpdatePost(@PathVariable Long postId){
+        Post post = postService.findById(postId);
 
+        return ResponseEntity.ok(new PostDto(post));
+
+    }
 
     @Operation(summary = "카테고리별 게시글 목록 조회")
     @Parameters({

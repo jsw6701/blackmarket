@@ -5832,6 +5832,7 @@ textarea.form-control-lg {
   position: relative;
   width: 100%;
   overflow: hidden;
+  display: flex;
 }
 .carousel-inner::after {
   display: block;
@@ -5865,6 +5866,7 @@ textarea.form-control-lg {
 .carousel-item-next:not(.carousel-item-start),
 .active.carousel-item-end {
   transform: translateX(100%);
+  top:-100%;
 }
 
 .carousel-item-prev:not(.carousel-item-end),
@@ -11388,6 +11390,10 @@ left: 0;
 #file-input{
   display:none;
 }
+#file-input-update{
+  display:none;
+}
+
 .upload-box {
   width: 100%;
   box-sizing: border-box;

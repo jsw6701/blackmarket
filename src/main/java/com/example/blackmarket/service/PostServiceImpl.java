@@ -82,12 +82,19 @@ public class PostServiceImpl implements PostService{
             throw new IllegalStateException("해당 글을 수정할 권한이 없습니다.");
         }
 
+        List<String> fileArray = new ArrayList<>();
+        for (MultipartFile file : postUpdateDto.getFiles()) {
+            String title = file.getOriginalFilename();
+            fileArray.add(title);
+        }
+
         post.setTitle(postUpdateDto.getTitle());
         post.setContent(postUpdateDto.getContent());
-        post.setTargetDate(postUpdateDto.getTargetDate());
+        post.setTargetDate(LocalDate.parse(postUpdateDto.getTargetDate()).atStartOfDay());
         post.setImmediatePurchasePrice(postUpdateDto.getImmediatePurchasePrice());
         post.setBiddingPrice(postUpdateDto.getBiddingPrice());
         post.setBiddingUnit(postUpdateDto.getBiddingUnit());
+        post.setFileArray(fileArray);
         post.setCategory(category);
 
         postRepository.save(post);
@@ -141,6 +148,7 @@ public class PostServiceImpl implements PostService{
 
             if(auctionList.size() > 0){
                 post.setStatus(State.COMPLETED);
+
             }else{
                 post.setStatus(State.FINISHED);
             }

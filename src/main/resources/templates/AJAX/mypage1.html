@@ -26,7 +26,9 @@
                 즉시구매가 : [[${post.immediatePurchasePrice}]]원<br>
                 상위 입찰 금액 : [[${post.biddingPrice}]]원
                 <br>
-                <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">내용수정하기</button>
+                <button class="btn btn-update" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postUpdateModal" onclick="update_show_btn(this)"  style="border: 1px #F9C978 solid;width: 100%;">
+                    내용수정하기
+                </button>
                 <p class="text-end" style="color:#656565">
                     [[${#temporals.format(post.targetDate, 'yy.MM.dd')}]]
 <!--                      3일 23시간 남음 (23.10.20 16:50)-->

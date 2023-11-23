@@ -7,7 +7,9 @@ const prev = document.querySelector('.prev');
 const signup_btn = document.querySelector('#signup_button');
 const login_btn = document.querySelector('#login_btn');
 const fileInput = document.querySelector('#file-input');
+const fileInputUpdate = document.querySelector('#file-input-update');
 const preview = document.querySelector('#preview');
+const update_preview = document.querySelector('#update-preview');
 const recent =  document.querySelector('#recent_btn');
 const most =  document.querySelector('#most_btn');
 const post_btns = document.querySelectorAll('.post-btns');
@@ -18,6 +20,7 @@ const confirm_auction = document.querySelector('#confirm_auction');
 const mypage_btns = document.querySelectorAll('.mypage-btns');
 const immediate = document.querySelector("#immediate");
 const detail_btn = document.querySelectorAll('.detail-btn');
+
 
 const itemCount = item.length - 2;
 let startX = 0;         //mousedown시 위치
@@ -365,12 +368,12 @@ function post_detail_btn(element) {
       for(var i = 0; i< json.fileArray.length; i++){
         if(i==0){
           post_detail_inner.innerHTML += `
-            <div class="carousel-item active">
+            <div class="carousel-item mx-1 active">
                 <img src="/upload/${json.fileArray[i]}" class="d-block w-100" alt="...">
             </div>`;
         }else{
           post_detail_inner.innerHTML += `
-            <div class="carousel-item">
+            <div class="carousel-item mx-1">
                 <img src="/upload/${json.fileArray[i]}" class="d-block w-100" alt="...">
             </div>`;
         }
@@ -563,3 +566,104 @@ function paid_auction(element){
     }
   });
 }
+function update_show_btn(element){
+  var dataIdValue = element.dataset.id;
+
+  var requestData = {};
+  sendAjaxRequest('/post/'+dataIdValue, 'GET', requestData, function (error, response) {
+    var json = JSON.parse(response);
+    console.log(json);
+    document.querySelector("#update_title").value = json.title;
+    document.querySelector("#update_content").value = json.content;
+    document.querySelector("#update_biddingPrice").value = json.biddingPrice;
+    document.querySelector("#update_biddingUnit").value = json.biddingUnit;
+    document.querySelector("#update_immediatePurchasePrice").value = json.immediatePurchasePrice;
+    var dateObject = new Date(json.targetDate);
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1;
+    const date = dateObject.getDate();
+    var date_text = `${year}-${month >= 10 ? month : '0' + month}-${date >= 10 ? date : '0' + date}`;
+
+
+    document.querySelector("#update_targetDate").value = date_text;
+
+    document.querySelector("#update-form").action = "/postUpdate/"+dataIdValue;
+
+  });
+
+}
+document.addEventListener('DOMContentLoaded', function () {
+  // Modal이 닫힐 때 발생하는 이벤트
+  var postUpdateModal = document.getElementById('postUpdateModal');
+  postUpdateModal.addEventListener('hidden.bs.modal', function () {
+
+
+  });
+});
+
+
+
+
+
+
+
+imageLoaderUpdate = function(file){
+  var reader = new FileReader();
+  reader.onload = function(ee){
+    // let img = document.createElement('img')
+    // img.src = ee.target.result;
+    update_preview.innerHTML += `
+                        <div id="${file.lastModified}" class="empty-img-box my-1 mx-1 col-6">
+                            <img src="${ee.target.result}">
+                            <button data-index='${file.lastModified}' class='file-remove'></button>
+                        </div>`;
+
+
+  }
+  reader.readAsDataURL(file);
+}
+
+const dataTransterUpdate = new DataTransfer();
+
+const handlerUpdate = {
+  init() {
+    if(fileInputUpdate != null){
+      fileInputUpdate.addEventListener('change', () => {
+        console.dir(fileInputUpdate)
+        const files = Array.from(fileInputUpdate.files);
+        Array.from(files).forEach(file => {
+          dataTransterUpdate.items.add(file);
+        });
+        document.querySelector('#file-input-update').files = dataTransterUpdate.files;
+
+        files.forEach(file => {
+          imageLoaderUpdate(file);
+        });
+      });
+    }
+
+  },
+
+  removeFile: () => {
+    document.addEventListener('click', (e) => {
+      if(e.target.className !== 'file-remove') return;
+      const removeTargetId = e.target.dataset.index;
+      const removeTarget = document.getElementById(removeTargetId);
+      const files = document.querySelector('#file-input-update').files;
+
+      Array.from(files)
+          .filter(file => file.lastModified != removeTargetId)
+          .forEach(file => {
+            dataTransterUpdate.items.add(file);
+          });
+
+      document.querySelector('#file-input-update').files = dataTransterUpdate.files;
+
+      removeTarget.remove();
+    })
+  }
+}
+
+handlerUpdate.init()
+handlerUpdate.removeFile()

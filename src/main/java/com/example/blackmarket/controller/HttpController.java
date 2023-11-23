@@ -3,6 +3,8 @@ package com.example.blackmarket.controller;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.dto.response.AuctionDto;
 import com.example.blackmarket.dto.response.PostDto;
+import com.example.blackmarket.model.Auction;
+import com.example.blackmarket.model.AuctionState;
 import com.example.blackmarket.model.Post;
 import com.example.blackmarket.model.User;
 import com.example.blackmarket.repository.AuctionRepository;
@@ -75,6 +77,11 @@ public class HttpController {
         User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
         List<Post> post = postService.findPostListByUser(user);
 
+        List<Auction> auctionList1 = auctionRepository.findByUserIdAndAuctionState(user.getId(), AuctionState.COMPLETED);
+        List<Auction> auctionList2 = auctionRepository.findByUserIdAndAuctionState(user.getId(), AuctionState.immediate);
+        int buyhistory = auctionList2.size() + auctionList1.size();
+
+        model.addAttribute("buyhistory",buyhistory);
         model.addAttribute("loginflag",loginflag);
         model.addAttribute("sellCount", post != null ? post.size() : 0 );
 
