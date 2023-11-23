@@ -22,7 +22,7 @@ jobs:
         run: chmod +x ./gradlew
   
       - name: Run tests
-        run: ./gradlew :Blackmarket:clean :Blackmarket:test
+        run: ./gradlew :blackmarket:clean :blackmarket:test
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
           java-version: '11'
 
       - name: Build with Gradle
-        run: ./gradlew :Blackmarket:clean :Blackmarket:test
+        run: ./gradlew :blackmarket:clean :blackmarket:test
 
       - name: Deploy to EC2
         env:
