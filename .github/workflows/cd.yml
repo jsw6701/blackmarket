@@ -21,9 +21,8 @@ jobs:
       - name: Grant execution permissions
         run: chmod +x ./gradlew
   
-
-      - name: Run tests
-        run: ./gradlew :xxxx-core:clean :xxxx-api:clean :xxxx-core:test :xxxx-api:test
+      - name: Run tests with info option
+        run: ./gradlew :xxxx-core:clean :xxxx-api:clean :xxxx-core:test :xxxx-api:test --info
 
   deploy:
     runs-on: ubuntu-latest
