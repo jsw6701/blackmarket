@@ -17,7 +17,11 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
-
+      - name: Check current directory and files
+        run: |
+          pwd
+          ls -la
+          
       - name: Grant execution permissions  
         run: |
           chmod +x ./gradlew
