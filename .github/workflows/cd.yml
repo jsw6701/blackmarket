@@ -49,8 +49,8 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          scp -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r /root/black/build/libs/Blackmarket-0.0.1-SNAPSHOT.jar $USER@106.10.56.54:/tmp
-          ssh -i private_key.pem -o StrictHostKeyChecking=no -p 1024 $USER@106.10.56.54 << EOF
+          scp -P 1024 -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r /root/black/build/libs/Blackmarket-0.0.1-SNAPSHOT.jar $USER@106.10.56.54:/tmp
+          ssh -p 1024 -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@106.10.56.54 << EOF
           sudo systemctl stop webapp
           sudo mv /tmp/*.jar /app/webapp.jar
           sudo systemctl start webapp
