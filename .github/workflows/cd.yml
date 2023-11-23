@@ -17,6 +17,10 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
+          
+      - name: Grant execution permissions
+        run: chmod +x ./gradlew
+  
 
       - name: Run tests
         run: ./gradlew :xxxx-core:clean :xxxx-api:clean :xxxx-core:test :xxxx-api:test
