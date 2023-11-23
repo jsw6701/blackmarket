@@ -11721,3 +11721,13 @@ left: 0;
   text-align: right;
 
 }
+
+#sidebar-wrapper::-webkit-scrollbar{
+  width: 10px;
+}
+#sidebar-wrapper::-webkit-scrollbar-thumb {
+  height: 10%; /* 스크롤바의 길이 */
+  background: #48494C; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+

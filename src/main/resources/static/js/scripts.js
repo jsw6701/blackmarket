@@ -336,7 +336,8 @@ function post_detail_btn(element) {
       document.querySelector('#post_id').value = json.id;
       document.querySelector(".post-chat-btn-link").href="/chat/start?postId="+json.id;
 
-      console.log(json);
+
+
 
       const serverDate = new Date(json.targetDate);
       const currentDate = new Date();
@@ -359,7 +360,6 @@ function post_detail_btn(element) {
       const formattedDateString = formatter.format(serverDate);
       document.querySelector('#target_date').innerHTML = `(${formattedDateString} 에 종료)`;
 
-      console.log(`(${formattedDateString} 에 종료)`);
 
       post_detail_inner.innerHTML = "";
       for(var i = 0; i< json.fileArray.length; i++){
@@ -374,7 +374,14 @@ function post_detail_btn(element) {
                 <img src="/upload/${json.fileArray[i]}" class="d-block w-100" alt="...">
             </div>`;
         }
+      }
 
+      if(json.state != "BIDDING"){
+        document.querySelector("#auction-dropup-btn").disabled= true;
+        document.querySelector("#immediate").disabled= true;
+      }else{
+        document.querySelector("#immediate").disabled= false;
+        document.querySelector("#auction-dropup-btn").disabled= false;
       }
 
     }
@@ -537,6 +544,22 @@ function click_auction(element){
     } else {
       alert("입찰되었습니다.");
       my_page("/mypage2");
+    }
+  });
+}
+
+
+function paid_auction(element){
+  let auction_id = element.dataset.id;
+  var requestData = {
+    "auctionId": auction_id
+  };
+  sendAjaxRequest('/auction/pay/'+ auction_id, 'POST', requestData, function (error, response) {
+    if (error) {
+        alert(error);
+    } else {
+      alert("최종결제가 완료되었습니다.");
+      my_page("/mypage3");
     }
   });
 }

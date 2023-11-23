@@ -4,10 +4,8 @@ package com.example.blackmarket.service;
 import com.example.blackmarket.dto.requeset.PostCreateDto;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.dto.response.PostDto;
-import com.example.blackmarket.model.Category;
-import com.example.blackmarket.model.Post;
-import com.example.blackmarket.model.State;
-import com.example.blackmarket.model.User;
+import com.example.blackmarket.model.*;
+import com.example.blackmarket.repository.AuctionRepository;
 import com.example.blackmarket.repository.CategoryRepository;
 import com.example.blackmarket.repository.PostRepository;
 import com.example.blackmarket.repository.UserRepository;
@@ -31,6 +29,8 @@ public class PostServiceImpl implements PostService{
     private final CategoryRepository categoryRepository;
 
     private final UserRepository userRepository;
+
+    private final AuctionRepository auctionRepository;
 
     @Override
     public Post findById(Long id) {
@@ -137,7 +137,14 @@ public class PostServiceImpl implements PostService{
         List<Post> postsToUpdate = postRepository.findByTargetDateBefore(currentDate);
 
         for (Post post : postsToUpdate) {
-            post.setStatus(State.FINISHED);
+            List<Auction> auctionList = auctionRepository.findByPostId(post.getId());
+
+            if(auctionList.size() > 0){
+                post.setStatus(State.COMPLETED);
+            }else{
+                post.setStatus(State.FINISHED);
+            }
+
         }
 
         postRepository.saveAll(postsToUpdate);

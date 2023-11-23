@@ -3,7 +3,7 @@
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="/img/mypage_profile.png" class="img-fluid rounded-start" alt="...">
+          <img th:if="${auction.getPost().getFileArray() != null and auction.getPost().getFileArray().size() > 0}" th:src="'/upload/' + ${auction.getPost().getFileArray()[0]}" alt="Image" class="card-img-top">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -27,9 +27,10 @@
 
                 </div>
                 <div class="col-6">
-                  <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">판매자와 채팅하기</button>
+                  <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" th:onclick="'location.href=\'/chat/start?postId=' + ${auction.post.id} +'\''">판매자와 채팅하기</button>
                 </div>
               </div>
+
 
 
             </div>

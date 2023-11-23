@@ -121,7 +121,11 @@
                             <!-- Product details-->
                             <div class="card-body p-3">
                                 <div class="text-start">
-                                    <div class="author" th:text="${post.user.getName()}"></div>
+                                    <div class="author">
+                                        <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
+                                        [[${post.user.getName()}]]
+
+                                    </div>
                                     <div class="my-3 tag">
                                         <span th:if="${post.immediatePurchasePrice != null and post.immediatePurchasePrice != 0}" class="px-1 me-1 py-1 blue">즉시구매 </span>
                                         <span
@@ -129,10 +133,22 @@
                                                 class="px-1 me-1 py-1 red">
                                             마감임박
                                         </span>
+                                        <span
+                                                th:if="${post.targetDate.isBefore(T(java.time.LocalDateTime).now())}"
+                                                class="px-1 me-1 py-1 gray">
+                                            경매마감
+                                        </span>
                                     </div>
                                     <h5 class="title" th:text="${post.title}"></h5>
                                     <div class="text-end">
-                                        <span th:text="${post.biddingPrice}+' 원'"></span>
+<!--                                        <span th:text="${post.biddingPrice}+' 원'"></span>-->
+                                        <div th:switch="${#strings.toString(post.state)}" class="tag mypage-tag">
+                                            <span th:case="WAITING"th:text="${post.biddingPrice}+' 원'"></span>
+                                            <span th:case="BIDDING"th:text="${post.biddingPrice}+' 원'"></span>
+                                            <span th:case="BIDDED">마감</span>
+                                            <span th:case="COMPLETED">마감</span>
+                                            <span th:case="FINISHED">마감</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

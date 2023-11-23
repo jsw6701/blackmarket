@@ -28,4 +28,5 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Post> findTop5();
 
 
+
 }
