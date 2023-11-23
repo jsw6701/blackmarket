@@ -17,15 +17,9 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
-      - name: Check current directory and files
-        run: |
-          pwd
-          ls -la
           
       - name: Grant execution permissions  
-        run: |
-          chmod +x ./gradlew
-          ls -al ./gradlew
+        run: chmod +x ./gradlew
 
       - name: Run tests
         run: ./gradlew clean test
@@ -43,6 +37,10 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
+
+      - name: Grant execution permissions  
+        run: chmod +x ./gradlew
+
 
       - name: Build with Gradle
         run: ./gradlew clean test
