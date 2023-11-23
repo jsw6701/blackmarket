@@ -22,7 +22,9 @@ jobs:
           java-version: '11'
           
       - name: Grant execution permissions
-        run: chmod +x ./gradlew
+        run: |
+          chmod +x ./gradlew
+          ls -l ./gradlew
   
       - name: Run tests
         run: ./gradlew clean test
