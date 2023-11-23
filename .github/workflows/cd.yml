@@ -57,7 +57,7 @@ jobs:
           EOF
           rm -f private_key.pem
         env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY: ${{ secrets.ACCESS_KEY }}
       #- name: Notify Slack
       # if: failure()
       #  uses: 8398a7/action-slack@v3
