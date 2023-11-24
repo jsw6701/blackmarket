@@ -333,11 +333,11 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_author').innerText = json.user.name;
       document.querySelector('#post_detail_title').innerText = json.title;
       document.querySelector('#post_detail_content').innerText = json.content;
-      document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice;
+      document.querySelector('#post_detail_biddingPrice').innerText = json.biddingPrice + json.biddingUnit;
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
       document.querySelector('#post_id').value = json.id;
       document.querySelector(".post-chat-btn-link").href="/chat/start?postId="+json.id;
-      document.querySelector("#post_detail_biddingUnit").innerText = json.biddingUnit+"원";
+      document.querySelector("#post_detail_biddingUnit").innerText = json.biddingUnit + "원";
 
 
 

@@ -52,6 +52,7 @@ public class AuctionServiceImpl implements AuctionService {
         }
 
         Long price = post.getBiddingPrice() + post.getBiddingUnit();
+        user.setMoney(user.getMoney() - (post.getBiddingPrice() + post.getBiddingUnit()));
 
         post.setBiddingPrice(price);
 
@@ -67,6 +68,7 @@ public class AuctionServiceImpl implements AuctionService {
 
         stateChange(postId,AuctionState.LOWER);
 
+        userRepository.save(user);
         auctionRepository.save(auction);
         postRepository.save(post);
     }
@@ -109,6 +111,9 @@ public class AuctionServiceImpl implements AuctionService {
     public void stateChange(Long postId, AuctionState auctionState){
         List<Auction> auctionList = auctionRepository.findByPostId(postId);
         for(Auction auction : auctionList){
+            if(auction.getAuctionState() == AuctionState.BIDDING){
+                auction.getUser().setMoney(auction.getUser().getMoney() + auction.getPrice());
+            }
             auction.setAuctionState(auctionState);
             auctionRepository.save(auction);
         }
