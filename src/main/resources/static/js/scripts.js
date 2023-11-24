@@ -462,6 +462,8 @@ mypage_btns.forEach(function(mypage_btn) {
 });
 
 
+
+
 immediate.addEventListener('click', (e) => {
   let post_id = document.querySelector('#post_id').value
   var requestData = {
@@ -660,3 +662,21 @@ const handlerUpdate = {
 
 handlerUpdate.init()
 handlerUpdate.removeFile()
+
+
+
+function immediate_btn(element){
+  let post_id = element.dataset.id;
+  var requestData = {
+    "postid": post_id
+  };
+  sendAjaxRequest('/auction/immediate/'+ post_id, 'POST', requestData, function (error, response) {
+    if (error) {
+      // alert(error);
+      alert("로그인후 이용바랍니다. ")
+    } else {
+      alert("즉시구매가 완료되었습니다.")
+      location.reload();
+    }
+  });
+}

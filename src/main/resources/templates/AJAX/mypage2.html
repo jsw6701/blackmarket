@@ -66,13 +66,13 @@
               <div class="row">
                 <div class="col-6">
                   <div th:switch="${#strings.toString(auction.getAuctionState())}">
-                    <button th:case="BIDDING" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                    <button th:case="BIDDING" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" th:data-id="${auction.getPost().getId()}" onclick="immediate_btn(this)">
                       즉시 구매<br>
                       [[${#numbers.formatInteger(auction.getPost().getImmediatePurchasePrice(), 3, 'COMMA') + '원'}]]
 
 
                     </button>
-                    <button th:case="LOWER" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
+                    <button th:case="LOWER" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" th:data-id="${auction.getPost().getId()}" onclick="immediate_btn(this)">
                       즉시 구매<br>
                       [[${#numbers.formatInteger(auction.getPost().getImmediatePurchasePrice(), 3, 'COMMA') + '원'}]]
                     </button>
