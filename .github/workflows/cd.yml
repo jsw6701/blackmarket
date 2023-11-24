@@ -46,18 +46,13 @@ jobs:
         run: ./gradlew clean test
 
       - name: Deploy to Server
-        run: |
-          echo "$PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          scp -P 1024 -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r /root/black/build/libs/Blackmarket-0.0.1-SNAPSHOT.jar $USER@106.10.56.54:/tmp
-          ssh -p 1024 -i private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $USER@106.10.56.54 << EOF
-          sudo systemctl stop webapp
-          sudo mv /tmp/*.jar /app/webapp.jar
-          sudo systemctl start webapp
-          EOF
-          rm -f private_key.pem
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            password: ${{ secrets.PRIVATE_KEY }}
+            port: ${{ secrets.PORT }}
+            script: sudo ./deploy.sh
       #- name: Notify Slack
       # if: failure()
       #  uses: 8398a7/action-slack@v3
