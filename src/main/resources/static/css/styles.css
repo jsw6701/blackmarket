@@ -11683,6 +11683,7 @@ left: 0;
   height: 100%;
 }
 .multiple-items .content .imgbox img{
+  width:100%;
   min-width: 100%;
   min-height: 100%;
 }
