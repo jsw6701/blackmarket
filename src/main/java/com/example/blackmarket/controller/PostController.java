@@ -69,7 +69,7 @@ public class PostController {
         fileService.uploadFiles(postCreateDto.getFiles());
 
         PostDto post = postService.createPost(postCreateDto, user);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @Operation(summary = "게시글 수정")
