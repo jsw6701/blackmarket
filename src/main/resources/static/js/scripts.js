@@ -337,7 +337,7 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice;
       document.querySelector('#post_id').value = json.id;
       document.querySelector(".post-chat-btn-link").href="/chat/start?postId="+json.id;
-
+      document.querySelector("#post_detail_biddingUnit").innerText = json.biddingUnit+"원";
 
 
 

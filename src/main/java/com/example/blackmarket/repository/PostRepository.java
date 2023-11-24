@@ -23,4 +23,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     List<Post> findByTargetDateBefore(LocalDateTime currentDate);
 
     List<Post> findByUser(User user);
+
+    List<Post> findByStatus(State Status);
 }

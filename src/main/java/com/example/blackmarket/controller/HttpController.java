@@ -3,11 +3,9 @@ package com.example.blackmarket.controller;
 import com.example.blackmarket.dto.requeset.PostUpdateDto;
 import com.example.blackmarket.dto.response.AuctionDto;
 import com.example.blackmarket.dto.response.PostDto;
-import com.example.blackmarket.model.Auction;
-import com.example.blackmarket.model.AuctionState;
-import com.example.blackmarket.model.Post;
-import com.example.blackmarket.model.User;
+import com.example.blackmarket.model.*;
 import com.example.blackmarket.repository.AuctionRepository;
+import com.example.blackmarket.repository.PostRepository;
 import com.example.blackmarket.repository.UserRepository;
 import com.example.blackmarket.security.CurrentUser;
 import com.example.blackmarket.security.UserPrincipal;
@@ -43,6 +41,7 @@ public class HttpController {
     private PostService postService;
     private UserRepository userRepository;
     private AuctionRepository auctionRepository;
+    private PostRepository postRepository;
 
     @GetMapping(value = {"/", "/index", "/main"})
     public String index(Model model, @CurrentUser UserPrincipal userPrincipal,@RequestParam(value = "token", required = false) String token,HttpServletResponse response) {
@@ -62,6 +61,10 @@ public class HttpController {
 
         List<Post> PostList = auctionRepository.findTop5();
 
+        int biddingCount = postRepository.findByStatus(State.BIDDING).size();
+
+
+        model.addAttribute("biddingCount",biddingCount );
         model.addAttribute("carouselList",PostList);
 
 
