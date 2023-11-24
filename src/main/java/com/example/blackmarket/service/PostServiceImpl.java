@@ -57,13 +57,12 @@ public class PostServiceImpl implements PostService{
                 .biddingPrice(postCreateDto.getBiddingPrice())
                 .biddingUnit(postCreateDto.getBiddingUnit())
                 .targetDate(LocalDate.parse(postCreateDto.getTargetDate()).atStartOfDay())
+                .status(State.BIDDING)
                 .viewCount(0L)
                 .fileArray(fileArray)
                 .category(category)
                 .user(user)
                 .build();
-
-        post.setStatus(State.WAITING);
         post.setCreateDate(LocalDateTime.now());
 
         postRepository.save(post);

@@ -379,6 +379,7 @@ function post_detail_btn(element) {
         }
       }
 
+      console.log(json);
       if(json.state != "BIDDING"){
         document.querySelector("#auction-dropup-btn").disabled= true;
         document.querySelector("#immediate").disabled= true;
@@ -593,15 +594,6 @@ function update_show_btn(element){
   });
 
 }
-document.addEventListener('DOMContentLoaded', function () {
-  // Modal이 닫힐 때 발생하는 이벤트
-  var postUpdateModal = document.getElementById('postUpdateModal');
-  postUpdateModal.addEventListener('hidden.bs.modal', function () {
-
-
-  });
-});
-
 
 
 
