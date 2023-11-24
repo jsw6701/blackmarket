@@ -100,7 +100,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setAuctionState(AuctionState.immediate);
 
         stateChange(postId,AuctionState.failed);
-        post.setStatus(State.FINISHED);
+        post.setStatus(State.COMPLETED);
 
         auctionRepository.save(auction);
         postRepository.save(post);
