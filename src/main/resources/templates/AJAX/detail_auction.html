@@ -9,7 +9,7 @@
     </thead>
     <tbody>
     <tr th:each="auction : ${auctionList}">
-        <td th:text="${auction.price}"></td>
+        <td th:text="${#numbers.formatInteger(auction.price, 3, 'COMMA') + '원'}"></td>
 
         <td>
             <div th:switch="${#strings.toString(auction.auctionState)}">

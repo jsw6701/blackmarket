@@ -23,8 +23,10 @@
             <div class="card-text row">
               <div th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postDetailModal" onclick="post_detail_btn(this)" th:text="${post.content}" class="col-6 py-5" style="cursor:pointer;overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"></div>
               <div class="col-6" style="color:#DC3545">
-                즉시구매가 : [[${post.immediatePurchasePrice}]]원<br>
-                상위 입찰 금액 : [[${post.biddingPrice}]]원
+                즉시구매가 : [[${#numbers.formatInteger(post.immediatePurchasePrice, 3, 'COMMA') + '원'}]]<br>
+
+                상위 입찰 금액 : [[${#numbers.formatInteger(post.biddingPrice, 3, 'COMMA') + '원'}]]
+
                 <br>
                 <button class="btn btn-update" th:attr="data-id=${post.id}" data-bs-toggle="modal" data-bs-target="#postUpdateModal" onclick="update_show_btn(this)"  style="border: 1px #F9C978 solid;width: 100%;">
                     내용수정하기

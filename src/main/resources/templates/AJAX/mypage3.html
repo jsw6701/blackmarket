@@ -18,7 +18,7 @@
                 <div class="col-6" style="">
                   <span style="color:#D171E0"> <i class="fa-solid fa-gift"></i>축하합니다<i class="fa-solid fa-gift"></i></span>
                   <br>
-                  최종 낙찰 금액 : [[${auction.getPrice()}]]원<br>
+                  최종 낙찰 금액 : [[${#numbers.formatInteger(auction.getPrice(), 3, 'COMMA') + '원'}]]<br>
                   <br>
 
                 </div>

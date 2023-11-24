@@ -56,7 +56,9 @@
                     </div>
 
                   </span>
-                  상위 입찰 금액 : [[${auction.getPost().getBiddingPrice()}]]원<br>
+                  상위 입찰 금액 : [[${#numbers.formatInteger(auction.getPost().getBiddingPrice(), 3, 'COMMA') + '원'}]]<br>
+
+
                   <br>
 
                 </div>
@@ -66,11 +68,13 @@
                   <div th:switch="${#strings.toString(auction.getAuctionState())}">
                     <button th:case="BIDDING" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
                       즉시 구매<br>
-                      [[${auction.getPost().getImmediatePurchasePrice()}]]원
+                      [[${#numbers.formatInteger(auction.getPost().getImmediatePurchasePrice(), 3, 'COMMA') + '원'}]]
+
+
                     </button>
                     <button th:case="LOWER" class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;">
                       즉시 구매<br>
-                      [[${auction.getPost().getImmediatePurchasePrice()}]]원
+                      [[${#numbers.formatInteger(auction.getPost().getImmediatePurchasePrice(), 3, 'COMMA') + '원'}]]
                     </button>
                   </div>
 
@@ -84,7 +88,7 @@
                     <div th:case="BIDDING">
                       <button class="btn" style="border: 1px #F9C978 solid;width: 100%;">
                         입찰불가<br>
-                        내 입찰금액 : [[${auction.getPrice()}]]
+                        내 입찰금액 : [[${#numbers.formatInteger(auction.getPrice(), 3, 'COMMA') + '원'}]]
                       </button>
 
                     </div>
@@ -92,7 +96,7 @@
                     <div th:case="LOWER" class="dropup">
                       <button class="btn btn-update" style="border: 1px #F9C978 solid;width: 100%;" data-bs-toggle="dropdown"  aria-expanded="false" >
                         입찰하기<br>
-                        [[${auction.getPrice()}]]원
+                        [[${#numbers.formatInteger(auction.getPrice(), 3, 'COMMA') + '원'}]]
                       </button>
 
                       <div class="dropdown-menu text-white text-center p-2" style="background-color: #313338">

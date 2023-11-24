@@ -145,10 +145,9 @@
                                     </div>
                                     <h5 class="title" th:text="${post.title}"></h5>
                                     <div class="text-end">
-<!--                                        <span th:text="${post.biddingPrice}+' 원'"></span>-->
                                         <div th:switch="${#strings.toString(post.state)}" class="tag mypage-tag">
-                                            <span th:case="WAITING"th:text="${post.biddingPrice}+' 원'"></span>
-                                            <span th:case="BIDDING"th:text="${post.biddingPrice}+' 원'"></span>
+                                            <span th:case="WAITING"th:text="${#numbers.formatInteger(post.biddingPrice, 3, 'COMMA') + '원'}"></span>
+                                            <span th:case="BIDDING"th:text="${#numbers.formatInteger(post.biddingPrice, 3, 'COMMA') + '원'}"></span>
                                             <span th:case="BIDDED">마감</span>
                                             <span th:case="COMPLETED">마감</span>
                                             <span th:case="FINISHED">마감</span>

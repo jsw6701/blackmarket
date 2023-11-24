@@ -27,7 +27,9 @@
                                         <img src="/img/user-profile.png" style="width:15px; height:15px;display:inline;">
                                         [[${post.getUser().getName()}]]
                                     </div>
-                                    <div class="price">[[${post.getBiddingPrice()}]]원</div>
+                                    <div class="price">
+                                        [[${#numbers.formatInteger(post.getBiddingPrice(), 3, 'COMMA') + '원'}]]
+                                        원</div>
                                 </div>
                             </div>
                         </div>
