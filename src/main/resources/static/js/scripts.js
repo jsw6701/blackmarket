@@ -335,6 +335,7 @@ function post_detail_btn(element) {
       document.querySelector('#post_detail_content').innerText = json.content;
       document.querySelector('#post_detail_biddingPrice').innerText = (json.biddingPrice + json.biddingUnit).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       document.querySelector('#post_detail_immediatePurchasePrice').innerText = json.immediatePurchasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      document.querySelector('#post_confirm_biddingPrice').innerText = (json.biddingPrice + json.biddingUnit).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
       document.querySelector('#post_id').value = json.id;
