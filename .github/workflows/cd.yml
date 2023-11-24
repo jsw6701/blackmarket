@@ -53,7 +53,7 @@ jobs:
             password: ${{ secrets.PASSWORD }}
             port: ${{ secrets.PORT }}
             script: sudo ./deploy.sh
-            timeout: 3600
+            timeout: 3600s
       #- name: Notify Slack
       # if: failure()
       #  uses: 8398a7/action-slack@v3
