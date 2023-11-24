@@ -24,7 +24,7 @@
 
 
         <td th:text="${auction.user.name}"></td>
-        <td th:text="${auction.createdAt}"></td>
+        <td>[[${#temporals.format(auction.createdAt, 'yy.MM.dd HH:mm:ss')}]]</td>
     </tr>
     </tbody>
 </table>
