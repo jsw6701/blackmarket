@@ -173,7 +173,7 @@ public class AuctionServiceImpl implements AuctionService {
 
         Map<Long, Optional<Auction>> highestAuctionMap = userAuctions.stream()
                 .collect(Collectors.groupingBy(auction -> auction.getPost().getId(),
-                        Collectors.maxBy(Comparator.comparing(Auction::getPrice))));
+                        Collectors.maxBy(Comparator.comparing(Auction::getCreatedAt))));
 
         List<Auction> highestAuctions = highestAuctionMap.values().stream()
                 .filter(Optional::isPresent)

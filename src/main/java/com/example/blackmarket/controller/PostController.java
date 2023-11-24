@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -418,8 +419,11 @@ public class PostController {
     @GetMapping("/mypage5")
     public String mypage5(Model model, @CurrentUser UserPrincipal userPrincipal) {
         User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
-        List<Auction> auctionList = auctionRepository.findByUserIdAndAuctionState(user.getId(),AuctionState.COMPLETED);
-
+        List<Auction> auctionList = new ArrayList<>();
+        List<Auction> auctionList1 = auctionRepository.findByUserIdAndAuctionState(user.getId(),AuctionState.COMPLETED);
+        List<Auction> auctionList2 = auctionRepository.findByUserIdAndAuctionState(user.getId(),AuctionState.immediate);
+        auctionList.addAll(auctionList1);
+        auctionList.addAll(auctionList2);
         model.addAttribute("auctionList", auctionList);
 
         return "AJAX/mypage5";
