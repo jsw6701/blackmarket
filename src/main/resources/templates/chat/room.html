@@ -59,6 +59,7 @@
                         messages.forEach(function(message) {
                             console.log(message.writer == username);
                             appendMessage(message.writer, message.message);
+                            $('.chat-scroll').scrollTop($('.chat-scroll')[0].scrollHeight);
                         });
                     },
                     error: function(error) {
