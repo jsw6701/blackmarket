@@ -44,7 +44,7 @@
             var username = [[${#authentication.principal.username}]];
 
             console.log(roomName + ", " + roomId + ", " + username);
-
+            $('.chat-scroll').scrollTop($('.chat-scroll')[0].scrollHeight);
             fetchChatHistory();
 
             // Existing STOMP connection setup
