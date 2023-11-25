@@ -16,10 +16,10 @@
                     [[${room.post.user.name}]]
                     <br>
                     <div class="d-flex">
-                        <div style="overflow: hidden;border-radius: 1rem;">
+                        <div style="overflow: hidden;border-radius: 1rem;display: flex; height: 100px;">
                             <img th:if="${room.post.fileArray != null and room.post.fileArray.size() > 0}" th:src="'/upload/' + ${room.post.fileArray[0]}" alt="Image" class="" style="width:100px;">
                         </div>
-                        <span style="font-size: 1.5rem; word-break: keep-all;">[[${room.post.title}]]</span>
+                        <span style="font-size: 1.5rem; word-break: keep-all;flex:1;">[[${room.post.title}]]</span>
                     </div>
                 </a>
 
